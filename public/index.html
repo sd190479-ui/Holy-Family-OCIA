@@ -2499,6 +2499,119 @@ document.addEventListener('DOMContentLoaded', () => {
 // Progress bar update is now handled inside renderGuide directly
 
 
+// ══ AI CHAT ══════════════════════════════════════════════════
+
+let aiHistory = [];
+
+function appendMessage(role, html, citations) {
+  const el = document.getElementById('ai-messages');
+  if (!el) return;
+  // Hide welcome message on first real message
+  const welcome = el.querySelector('.ai-welcome');
+  if (welcome) welcome.style.display = 'none';
+
+  const bubble = document.createElement('div');
+  bubble.className = 'ai-bubble ai-bubble--' + role;
+
+  if (role === 'thinking') {
+    bubble.innerHTML = '<span class="ai-thinking-dots"><span>.</span><span>.</span><span>.</span></span>';
+  } else {
+    bubble.innerHTML = '<div class="ai-bubble-text">' + html + '</div>';
+    if (citations && citations.length) {
+      const citeHtml = citations.map(c =>
+        `<div class="ai-citation-item">
+          <span class="ai-citation-title">${c.title || 'Source'}</span>
+          ${c.reference ? `<span class="ai-citation-meta">${c.reference}${c.year ? ', ' + c.year : ''}</span>` : ''}
+          ${c.excerpt ? `<div class="ai-citation-excerpt">&ldquo;${c.excerpt.slice(0,120)}…&rdquo;</div>` : ''}
+        </div>`
+      ).join('');
+      bubble.innerHTML += `<div class="ai-citations"><div class="ai-citations-label">Sources</div>${citeHtml}</div>`;
+    }
+  }
+
+  el.appendChild(bubble);
+  el.scrollTop = el.scrollHeight;
+  return bubble;
+}
+
+async function sendAiMessage() {
+  const input = document.getElementById('ai-input');
+  const sendBtn = document.getElementById('ai-send');
+  if (!input) return;
+
+  const text = input.value.trim();
+  if (!text) return;
+
+  // Add user message to UI and history
+  appendMessage('user', text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'));
+  aiHistory.push({ role: 'user', content: text });
+  input.value = '';
+  input.style.height = 'auto';
+
+  // Hide suggestions after first message
+  const sugg = document.getElementById('ai-suggestions');
+  if (sugg) sugg.style.display = 'none';
+
+  sendBtn.disabled = true;
+  const thinking = appendMessage('thinking', '');
+
+  try {
+    const res = await fetch('/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ messages: aiHistory, lang: currentLang })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Request failed');
+
+    const reply = data.reply || '';
+    const formatted = reply
+      .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+      .replace(/\n/g, '<br>');
+
+    if (thinking && thinking.parentNode) thinking.remove();
+    appendMessage('assistant', formatted, data.citations);
+    aiHistory.push({ role: 'assistant', content: reply });
+
+  } catch (err) {
+    if (thinking && thinking.parentNode) thinking.remove();
+    const errMsg = currentLang === 'es'
+      ? 'Lo siento, ocurrió un error. Por favor intenta de nuevo.'
+      : 'Sorry, an error occurred. Please try again.';
+    appendMessage('assistant', '<span class="ai-error">' + errMsg + '</span>');
+    console.error('AI error:', err);
+  } finally {
+    sendBtn.disabled = false;
+    input.focus();
+  }
+}
+
+function askSuggestion(btn) {
+  const input = document.getElementById('ai-input');
+  if (!input) return;
+  input.value = btn.textContent.trim();
+  sendAiMessage();
+}
+
+// Send on Enter (not Shift+Enter)
+document.addEventListener('DOMContentLoaded', function() {
+  const input = document.getElementById('ai-input');
+  if (!input) return;
+  input.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      sendAiMessage();
+    }
+  });
+  // Auto-resize textarea
+  input.addEventListener('input', function() {
+    this.style.height = 'auto';
+    this.style.height = Math.min(this.scrollHeight, 120) + 'px';
+  });
+});
+
+
 // ══ SAINT FINDER ═════════════════════════════════════════════
 
 async function findMySaint() {
