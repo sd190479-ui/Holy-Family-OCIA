@@ -914,7 +914,9 @@
 
 </style>
 <script>
-// Core tab switcher — defined early so onclick attributes always work
+// Core functions defined early so onclick attributes always work
+// regardless of when the main script finishes loading
+
 function openTab(tabId) {
   document.querySelectorAll('.nav-tab').forEach(function(t){ t.classList.remove('active'); });
   document.querySelectorAll('.tab-panel').forEach(function(p){ p.classList.remove('active'); });
@@ -923,6 +925,34 @@ function openTab(tabId) {
   if (btn) btn.classList.add('active');
   if (panel) panel.classList.add('active');
   window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function setLang(lang) {
+  // Store preference immediately
+  try { localStorage.setItem('hf-lang', lang); } catch(e) {}
+  // Toggle button states
+  var btnEn = document.getElementById('btn-en');
+  var btnEs = document.getElementById('btn-es');
+  if (btnEn) btnEn.classList.toggle('active', lang === 'en');
+  if (btnEs) btnEs.classList.toggle('active', lang === 'es');
+  // Swap all data-en / data-es elements
+  document.querySelectorAll('[data-en]').forEach(function(el) {
+    var val = el.getAttribute('data-' + lang);
+    if (val === null) return;
+    if (val.indexOf('<') !== -1 || val.indexOf('&') !== -1 || val.indexOf('"') !== -1) {
+      el.innerHTML = val;
+    } else {
+      el.textContent = val;
+    }
+  });
+  // Swap placeholders
+  document.querySelectorAll('[data-en-placeholder]').forEach(function(el) {
+    el.placeholder = el.getAttribute('data-' + lang + '-placeholder') || el.placeholder;
+  });
+  // Update html lang attribute
+  document.documentElement.lang = lang === 'es' ? 'es' : 'en';
+  // Rebuild dynamic content if main script has loaded
+  if (typeof buildMassGuide === 'function') buildMassGuide();
 }
 </script>
 </head>
@@ -1680,7 +1710,7 @@ function openTab(tabId) {
 
 // ── Rosary & Chaplets Interactive Prayer ──
 // Helper: programmatically switch to a tab (used by landing page button)
-function switchToTab(tabId) { openTab(tabId); }────────────────────
+function switchToTab(tabId) { openTab(tabId); }
 
 // ── Shared prayer text ────────────────────────────────────────
 const PRAYERS = {
