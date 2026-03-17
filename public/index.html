@@ -912,6 +912,64 @@
   .lang-btn.active { background: var(--habit); color: var(--cord-light); }
   .lang-btn:hover:not(.active) { color: var(--cord-light); }
 
+
+  /* ── Liturgical Year Season Cards ─────────────────────────── */
+  .season-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1rem;
+    margin-top: 0.5rem;
+  }
+  .season-card {
+    background: white;
+    border: 0.5px solid var(--cream-dark);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  }
+  .season-name {
+    font-family: 'Cinzel', serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    color: var(--habit);
+    padding: 0.85rem 1rem 0.4rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    border-bottom: 1px solid var(--cream-dark);
+  }
+  .season-color-dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    display: inline-block;
+    box-shadow: 0 0 0 2px rgba(0,0,0,0.08);
+  }
+  .season-dates {
+    font-family: 'Cinzel', serif;
+    font-size: 0.62rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--cord-dark);
+    padding: 0.5rem 1rem 0.35rem;
+  }
+  .season-desc {
+    font-family: 'EB Garamond', serif;
+    font-size: 0.98rem;
+    line-height: 1.7;
+    color: var(--text-main);
+    padding: 0 1rem 1rem;
+  }
+  .season-card--advent   { border-top: 3px solid #6B3FA0; }
+  .season-card--christmas { border-top: 3px solid #C9A84C; }
+  .season-card--ordinary { border-top: 3px solid #3B7A3B; }
+  .season-card--lent     { border-top: 3px solid #7B3A8B; }
+  .season-card--holyweek { border-top: 3px solid #C0392B; }
+  .season-card--easter   { border-top: 3px solid #C9A84C; }
+  .season-card--pentecost { border-top: 3px solid #C0392B; }
+
 </style>
 <script>
 // Core functions defined early so onclick attributes always work
@@ -1656,7 +1714,7 @@ Amen.</div>
       <div class="section-label" data-en="The Seasons" data-es="Las Estaciones">The Seasons</div>
       <div class="season-grid">
         <div class="season-card season-card--advent">
-          <div class="season-name"><span class="season-color-dot" style="background:#6B3FA0;"></span data-en="Advent" data-es="Adviento">Advent</div>
+          <div class="season-name"><span class="season-color-dot" style="background:#6B3FA0;"></span><span data-en="Advent" data-es="Adviento">Advent</span></div>
           <div class="season-dates" data-en="4 Sundays before Christmas · Liturgical color: Purple/Rose" data-es="4 Domingos antes de Navidad · Color litúrgico: Morado/Rosa">4 Sundays before Christmas · Liturgical color: Purple/Rose</div>
           <div class="season-desc" data-en="A time of joyful, penitential waiting. We prepare for both Christ's first coming at Christmas and his second coming at the end of time. The Advent wreath marks the passing weeks with growing light." data-es="Tiempo de espera alegre y penitente. Nos preparamos tanto para la primera venida de Cristo en Navidad como para su segunda venida al fin de los tiempos. La corona de Adviento marca las semanas con luz creciente.">A time of joyful, penitential waiting. We prepare for both Christ's first coming at Christmas and his second coming at the end of time. The Advent wreath marks the passing weeks with growing light.</div>
         </div>
