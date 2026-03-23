@@ -448,7 +448,7 @@
 
   .guide-layout {
     display: grid;
-    grid-template-columns: 260px 1fr;
+    grid-template-columns: 1fr;
     gap: 1rem;
     align-items: start;
   }
@@ -460,8 +460,8 @@
     display: flex;
     flex-direction: column;
     gap: 0.3rem;
-    max-height: 480px;
-    overflow-y: auto;
+    max-height: none;
+    overflow-y: visible;
     padding-right: 0.25rem;
     scrollbar-width: thin;
   }
@@ -970,6 +970,291 @@
   .season-card--easter   { border-top: 3px solid #C9A84C; }
   .season-card--pentecost { border-top: 3px solid #C0392B; }
 
+
+  /* ── OCIA Calendar ─────────────────────────────────────────── */
+  .calendar-hero {
+    background: linear-gradient(180deg, #2A1208 0%, var(--habit-mid) 100%);
+    padding: 1.75rem 1.5rem 1.5rem;
+    text-align: center;
+    border-bottom: 1px solid rgba(196,154,108,0.4);
+  }
+  .calendar-hero h2 {
+    font-family: 'Cinzel', serif; font-size: clamp(1.2rem, 4vw, 1.7rem);
+    color: var(--cord-light); letter-spacing: 0.08em; margin-bottom: 0.3rem;
+  }
+  .calendar-hero p {
+    font-family: 'Cormorant Garamond', serif; font-style: italic;
+    font-size: 1rem; color: rgba(222,196,154,0.7);
+  }
+  .calendar-controls {
+    padding: 1rem 1.25rem 0.5rem;
+    display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center;
+    background: var(--parchment); border-bottom: 1px solid var(--cream-dark);
+  }
+  .cal-filter-btn {
+    font-family: 'Cinzel', serif; font-size: 0.6rem; letter-spacing: 0.12em;
+    text-transform: uppercase; padding: 0.35rem 0.85rem;
+    border: 1px solid var(--cream-dark); border-radius: 20px;
+    background: white; color: var(--text-muted); cursor: pointer;
+    transition: all 0.15s;
+  }
+  .cal-filter-btn.active {
+    background: var(--habit); color: var(--cord-light); border-color: var(--habit);
+  }
+  .calendar-list {
+    background: var(--parchment); padding: 1rem 1.25rem 2rem;
+  }
+  .cal-month-header {
+    font-family: 'Cinzel', serif; font-size: 0.72rem; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--cord-dark);
+    padding: 1rem 0 0.5rem; border-bottom: 1px solid var(--cream-dark);
+    margin-bottom: 0.75rem; margin-top: 0.5rem;
+  }
+  .cal-session {
+    background: white; border: 0.5px solid var(--cream-dark);
+    border-left: 3px solid var(--habit); border-radius: 8px;
+    padding: 1rem 1.1rem; margin-bottom: 0.65rem;
+    transition: box-shadow 0.15s;
+  }
+  .cal-session:hover { box-shadow: 0 2px 12px rgba(107,58,42,0.1); }
+  .cal-session.upcoming { border-left-color: var(--canticle); }
+  .cal-session.today    { border-left-color: var(--cord); background: #fffef8; }
+  .cal-session.past     { opacity: 0.65; border-left-color: var(--ash); }
+  .cal-session-header {
+    display: flex; align-items: flex-start; gap: 0.75rem; margin-bottom: 0.5rem;
+  }
+  .cal-date-badge {
+    font-family: 'Cinzel', serif; text-align: center; flex-shrink: 0;
+    background: var(--habit); color: var(--cord-light);
+    border-radius: 6px; padding: 0.3rem 0.5rem; min-width: 44px;
+  }
+  .cal-date-day   { font-size: 1.3rem; font-weight: 700; line-height: 1; }
+  .cal-date-month { font-size: 0.5rem; letter-spacing: 0.15em; text-transform: uppercase; }
+  .cal-session.upcoming .cal-date-badge { background: var(--canticle); }
+  .cal-session.today    .cal-date-badge { background: var(--cord-dark); }
+  .cal-session.past     .cal-date-badge { background: var(--ash); }
+  .cal-session-info { flex: 1; min-width: 0; }
+  .cal-session-title {
+    font-family: 'Cinzel', serif; font-size: 0.82rem; letter-spacing: 0.04em;
+    color: var(--habit); margin-bottom: 0.2rem;
+  }
+  .cal-session-instructor {
+    font-family: 'EB Garamond', serif; font-size: 0.88rem;
+    color: var(--text-muted); margin-bottom: 0.15rem;
+  }
+  .cal-session-location {
+    font-family: 'Cinzel', serif; font-size: 0.58rem; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--cord-dark);
+  }
+  .cal-session-topic {
+    font-family: 'Cormorant Garamond', serif; font-size: 1rem;
+    color: var(--text-main); line-height: 1.5; margin: 0.4rem 0 0;
+  }
+  .cal-session-notes {
+    font-family: 'EB Garamond', serif; font-style: italic;
+    font-size: 0.88rem; color: var(--text-muted);
+    background: rgba(196,154,108,0.08); border-radius: 4px;
+    padding: 0.4rem 0.6rem; margin-top: 0.5rem;
+  }
+  .cal-session-notes::before { content: '📝 '; }
+  .cal-empty {
+    text-align: center; padding: 3rem 1rem;
+    font-family: 'Cormorant Garamond', serif; font-style: italic;
+    color: var(--text-muted); font-size: 1.05rem;
+  }
+  .cal-last-updated {
+    font-family: 'Cinzel', serif; font-size: 0.56rem; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--text-muted); opacity: 0.6;
+    text-align: center; padding: 0.5rem;
+  }
+
+  /* ── DRE Admin Panel ──────────────────────────────────────── */
+  .dre-panel {
+    background: var(--parchment); border-top: 2px solid var(--habit);
+    padding: 1.25rem;
+  }
+  .dre-login { max-width: 360px; margin: 0 auto; text-align: center; }
+  .dre-login-title {
+    font-family: 'Cinzel', serif; font-size: 0.75rem; letter-spacing: 0.15em;
+    text-transform: uppercase; color: var(--habit); margin-bottom: 1rem;
+  }
+  .dre-input {
+    width: 100%; padding: 0.65rem 0.9rem;
+    font-family: 'EB Garamond', serif; font-size: 1rem;
+    border: 1px solid var(--cream-dark); border-radius: 6px;
+    background: white; color: var(--text-main); margin-bottom: 0.5rem;
+  }
+  .dre-input:focus { outline: none; border-color: var(--cord); }
+  .dre-btn {
+    font-family: 'Cinzel', serif; font-size: 0.65rem; letter-spacing: 0.15em;
+    text-transform: uppercase; padding: 0.6rem 1.5rem;
+    border: none; border-radius: 6px; cursor: pointer; transition: all 0.15s;
+  }
+  .dre-btn-primary {
+    background: var(--habit); color: var(--cord-light);
+    box-shadow: 0 2px 8px rgba(107,58,42,0.2);
+  }
+  .dre-btn-primary:hover { opacity: 0.9; transform: translateY(-1px); }
+  .dre-btn-secondary {
+    background: white; color: var(--text-muted);
+    border: 1px solid var(--cream-dark); margin-left: 0.5rem;
+  }
+  .dre-btn-danger {
+    background: #c0392b; color: white; font-size: 0.58rem; padding: 0.3rem 0.6rem;
+  }
+  .dre-btn-add {
+    background: var(--canticle); color: white; width: 100%; margin-top: 0.75rem;
+  }
+  .dre-editor { display: none; }
+  .dre-editor.open { display: block; }
+  .dre-session-editor {
+    background: white; border: 1px solid var(--cream-dark);
+    border-radius: 8px; padding: 1rem; margin-bottom: 0.75rem;
+    position: relative;
+  }
+  .dre-session-num {
+    font-family: 'Cinzel', serif; font-size: 0.6rem; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--cord-dark); margin-bottom: 0.5rem;
+  }
+  .dre-field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-bottom: 0.5rem; }
+  @media (max-width: 520px) { .dre-field-row { grid-template-columns: 1fr; } }
+  .dre-field-full { margin-bottom: 0.5rem; }
+  .dre-label {
+    font-family: 'Cinzel', serif; font-size: 0.55rem; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--text-muted); display: block; margin-bottom: 0.2rem;
+  }
+  .dre-field {
+    width: 100%; padding: 0.45rem 0.65rem;
+    font-family: 'EB Garamond', serif; font-size: 0.95rem;
+    border: 1px solid var(--cream-dark); border-radius: 5px;
+    background: white; color: var(--text-main); box-sizing: border-box;
+  }
+  .dre-field:focus { outline: none; border-color: var(--cord); }
+  textarea.dre-field { resize: vertical; min-height: 60px; }
+  .dre-remove-btn {
+    position: absolute; top: 0.6rem; right: 0.6rem;
+  }
+  .dre-save-row {
+    display: flex; gap: 0.5rem; align-items: center; margin-top: 1rem;
+    padding-top: 0.75rem; border-top: 1px solid var(--cream-dark);
+  }
+  .dre-save-status {
+    font-family: 'EB Garamond', serif; font-style: italic;
+    font-size: 0.9rem; color: var(--canticle); flex: 1;
+  }
+  .dre-toggle-btn {
+    font-family: 'Cinzel', serif; font-size: 0.58rem; letter-spacing: 0.1em;
+    text-transform: uppercase; padding: 0.5rem 1rem;
+    background: none; border: 1px solid rgba(107,58,42,0.3);
+    border-radius: 20px; color: var(--text-muted); cursor: pointer;
+    display: block; margin: 0.75rem auto 0;
+    transition: all 0.15s;
+  }
+  .dre-toggle-btn:hover { border-color: var(--habit); color: var(--habit); }
+
+
+  /* ── Prayer Guide Full-Tab Mode ─── */
+  #tab-rosary.guide-active > *:not(#prayer-guide) {
+    display: none !important;
+  }
+  #tab-rosary.guide-active #prayer-guide {
+    display: block !important;
+  }
+  #prayer-guide {
+    background: var(--parchment);
+    min-height: calc(100vh - 148px);
+  }
+  .guide-steps-section {
+    background: white;
+    border-bottom: 2px solid var(--cream-dark);
+    padding: 0.75rem 1rem;
+  }
+  .guide-steps-label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--cord-dark);
+    margin-bottom: 0.5rem;
+  }
+  .guide-steps {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 0.3rem;
+    overflow-x: auto;
+    padding-bottom: 0.25rem;
+    scrollbar-width: thin;
+    -webkit-overflow-scrolling: touch;
+  }
+  .guide-step {
+    font-family: 'Cinzel', serif;
+    font-size: 0.58rem;
+    letter-spacing: 0.04em;
+    padding: 0.3rem 0.55rem;
+    border-radius: 20px;
+    border: 1px solid var(--cream-dark);
+    white-space: nowrap;
+    cursor: pointer;
+    color: var(--text-muted);
+    background: var(--parchment);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    transition: all 0.15s;
+  }
+  .guide-step.active {
+    background: var(--habit);
+    color: white;
+    border-color: var(--habit);
+    font-weight: 600;
+  }
+  .guide-step.done {
+    background: rgba(74,103,65,0.12);
+    color: var(--canticle);
+    border-color: rgba(74,103,65,0.3);
+  }
+  .guide-panel {
+    background: white;
+    border: none;
+    border-top: none;
+    border-radius: 0;
+    padding: 1.5rem 1.25rem 2rem;
+    margin: 1rem;
+    border: 0.5px solid var(--cream-dark);
+    border-top: 3px solid var(--habit);
+    border-radius: 8px;
+  }
+  .guide-panel-title {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(0.85rem, 3vw, 1.1rem);
+    letter-spacing: 0.06em;
+    color: var(--habit);
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    padding-bottom: 0.65rem;
+    border-bottom: 1px solid var(--cream-dark);
+  }
+  .guide-panel-body {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.1rem, 3vw, 1.3rem);
+    line-height: 2;
+    color: var(--text-main);
+    white-space: pre-line;
+  }
+  .guide-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    padding: 1rem 1.25rem;
+    border-top: 1px solid var(--cream-dark);
+    background: white;
+    position: sticky;
+    bottom: 0;
+  }
+
 </style>
 <script>
 // Core functions defined early so onclick attributes always work
@@ -1148,6 +1433,8 @@ function setLang(lang) {
     <button class="nav-tab" data-tab="massguide" data-en="Mass Guide" data-es="La Misa" onclick="openTab('massguide')">Mass Guide</button>
     <span class="nav-separator">·</span>
     <span class="nav-separator">·</span>
+    <button class="nav-tab" data-tab="calendar" data-en="📅 Calendar" data-es="📅 Calendario" onclick="openTab('calendar')">📅 Calendar</button>
+    <span class="nav-separator">·</span>
     <button class="nav-tab nav-tab--ai" data-tab="ai" data-en="✦ Ask" data-es="✦ Preguntar" onclick="openTab('ai')">✦ Ask</button>
   </div>
 </nav>
@@ -1215,7 +1502,12 @@ function setLang(lang) {
     <div class="content-section"><div class="section-label" data-en="Scriptural Foundation" data-es="Fundamento Bíblico">Scriptural Foundation</div><div class="scripture-list"><div class="scripture-card"><div class="scripture-ref" data-en="John 3:5" data-es="Juan 3:5">John 3:5</div><div class="scripture-text" data-en="&ldquo;Truly, truly, I say to you, unless one is born of water and the Spirit, he cannot enter the kingdom of God.&rdquo;" data-es="&ldquo;En verdad, en verdad te digo: el que no nazca del agua y del Espíritu no puede entrar en el reino de Dios.&rdquo;">&ldquo;Truly, truly, I say to you, unless one is born of water and the Spirit, he cannot enter the kingdom of God.&rdquo;</div></div><div class="scripture-card"><div class="scripture-ref" data-en="Matthew 28:19" data-es="Mateo 28:19">Matthew 28:19</div><div class="scripture-text" data-en="&ldquo;Go therefore and make disciples of all nations, baptizing them in the name of the Father and of the Son and of the Holy Spirit.&rdquo;" data-es="&ldquo;Vayan, pues, y hagan discípulos a todas las naciones, bautizándolos en el nombre del Padre y del Hijo y del Espíritu Santo.&rdquo;">&ldquo;Go therefore and make disciples of all nations, baptizing them in the name of the Father and of the Son and of the Holy Spirit.&rdquo;</div></div><div class="scripture-card"><div class="scripture-ref" data-en="Romans 6:3–4" data-es="Romanos 6:3–4">Romans 6:3–4</div><div class="scripture-text" data-en="&ldquo;Do you not know that all of us who have been baptized into Christ Jesus were baptized into his death? We were buried with him by baptism into death, so that we too might walk in newness of life.&rdquo;" data-es="&ldquo;¿O no saben que todos los que fuimos bautizados en Cristo Jesús, fuimos bautizados en su muerte? Por tanto, fuimos sepultados con él para que, así como Cristo resucitó por la gloria del Padre, así también nosotros caminemos en novedad de vida.&rdquo;">&ldquo;Do you not know that all of us who have been baptized into Christ Jesus were baptized into his death? We were buried with him by baptism into death, so that we too might walk in newness of life.&rdquo;</div></div><div class="scripture-card"><div class="scripture-ref" data-en="Acts 2:38" data-es="Hechos 2:38">Acts 2:38</div><div class="scripture-text" data-en="&ldquo;Repent and be baptized every one of you in the name of Jesus Christ for the forgiveness of your sins, and you will receive the gift of the Holy Spirit.&rdquo;" data-es="&ldquo;Conviértanse y bautícese cada uno de ustedes en el nombre de Jesucristo para el perdón de sus pecados, y recibirán el don del Espíritu Santo.&rdquo;">&ldquo;Repent and be baptized every one of you in the name of Jesus Christ for the forgiveness of your sins, and you will receive the gift of the Holy Spirit.&rdquo;</div></div></div></div>
     <div class="content-section"><div class="section-label" data-en="From the Catechism" data-es="Del Catecismo">From the Catechism</div><div class="catechism-block"><p class="catechism-quote" data-en="Holy Baptism is the basis of the whole Christian life, the gateway to life in the Spirit, and the door which gives access to the other sacraments. Through Baptism we are freed from sin and reborn as sons of God; we become members of Christ, are incorporated into the Church and made sharers in her mission." data-es="El Santo Bautismo es el fundamento de toda la vida cristiana, la puerta de la vida en el Espíritu y la puerta que abre el acceso a los demás sacramentos. Por el Bautismo somos liberados del pecado y regenerados como hijos de Dios; nos hacemos miembros de Cristo y somos incorporados a la Iglesia, hechos partícipes de su misión.">Holy Baptism is the basis of the whole Christian life, the gateway to life in the Spirit, and the door which gives access to the other sacraments. Through Baptism we are freed from sin and reborn as sons of God; we become members of Christ, are incorporated into the Church and made sharers in her mission.</p><span class="catechism-ref">CCC 1213</span></div></div>
     <div class="content-section"><div class="section-label" data-en="Wisdom of the Saints" data-es="Sabiduría de los Santos">Wisdom of the Saints</div><div class="saint-block"><p class="saint-quote" data-en="&ldquo;Baptism is God's most beautiful and magnificent gift. We call it gift, grace, anointing, enlightenment, garment of immortality, bath of rebirth, seal, and most precious gift.&rdquo;" data-es="&ldquo;El Bautismo es el don más bello y magnífico de Dios. Lo llamamos don, gracia, unción, iluminación, vestido de inmortalidad, baño de regeneración, sello y don preciosísimo.&rdquo;">&ldquo;Baptism is God's most beautiful and magnificent gift. We call it gift, grace, anointing, enlightenment, garment of immortality, bath of rebirth, seal, and most precious gift.&rdquo;</p><div class="saint-attribution" data-en="— St. Gregory of Nazianzus" data-es="— San Gregorio Nacianceno">— St. Gregory of Nazianzus</div></div></div>
-    <div class="content-section"><div class="section-label" data-en="The Four Essential Elements" data-es="Los Cuatro Elementos Esenciales">The Four Essential Elements</div><div class="essentials-grid"><div class="essential-card"><span class="essential-icon">💧</span><div class="essential-title" data-en="Water" data-es="El Agua">Water</div><div class="essential-text" data-en="The matter of the sacrament — poured or by immersion — signifying the washing away of sin and new birth in the Spirit." data-es="La materia del sacramento — derramada o por inmersión — que significa el lavado del pecado y el nuevo nacimiento en el Espíritu.">The matter of the sacrament — poured or by immersion — signifying the washing away of sin and new birth in the Spirit.</div></div><div class="essential-card"><span class="essential-icon">🕊️</span><div class="essential-title" data-en="The Trinitarian Formula" data-es="La Fórmula Trinitaria">The Trinitarian Formula</div><div class="essential-text" data-en="&quot;I baptize you in the name of the Father, and of the Son, and of the Holy Spirit.&quot; These words are absolutely essential to the validity of Baptism." data-es="&quot;Yo te bautizo en el nombre del Padre, y del Hijo, y del Espíritu Santo.&quot; Estas palabras son absolutamente esenciales para la validez del Bautismo.">&quot;I baptize you in the name of the Father, and of the Son, and of the Holy Spirit.&quot; These words are absolutely essential to the validity of Baptism.</div></div><div class="essential-card"><span class="essential-icon">🕯️</span><div class="essential-title" data-en="Indelible Character" data-es="Carácter Indeleble">Indelible Character</div><div class="essential-text" data-en="Baptism imprints an indelible spiritual mark on the soul — a character — that consecrates the person permanently for divine worship. This is why Baptism cannot be repeated." data-es="El Bautismo imprime en el alma una marca espiritual indeleble — un carácter — que consagra a la persona permanentemente para el culto divino. Por eso el Bautismo no puede repetirse.">Baptism imprints an indelible spiritual mark on the soul — a character — that consecrates the person permanently for divine worship. This is why Baptism cannot be repeated.</div></div><div class="essential-card"><span class="essential-icon">⛪</span><div class="essential-title" data-en="Incorporation into the Church" data-es="Incorporación a la Iglesia">Incorporation into the Church</div><div class="essential-text" data-en="Through Baptism we are incorporated into the Body of Christ, becoming members of the Church and heirs to the promise of eternal life." data-es="Por el Bautismo somos incorporados al Cuerpo de Cristo, convirtiéndonos en miembros de la Iglesia y herederos de la promesa de la vida eterna.">Through Baptism we are incorporated into the Body of Christ, becoming members of the Church and heirs to the promise of eternal life.</div></div><div class="essential-card"><span class="essential-icon">🌊</span><div class="essential-title" data-en="Threefold Effects" data-es="Triple Efecto">Threefold Effects</div><div class="essential-text" data-en="Baptism forgives original sin and all personal sins, bestows sanctifying grace and the theological virtues, and makes us temples of the Holy Spirit." data-es="El Bautismo perdona el pecado original y todos los pecados personales, otorga la gracia santificante y las virtudes teologales, y nos hace templos del Espíritu Santo.">Baptism forgives original sin and all personal sins, bestows sanctifying grace and the theological virtues, and makes us temples of the Holy Spirit.</div></div><div class="essential-card"><span class="essential-icon">👤</span><div class="essential-title" data-en="Who Can Baptize?" data-es="¿Quién Puede Bautizar?">Who Can Baptize?</div><div class="essential-text" data-en="In ordinary circumstances, a bishop, priest, or deacon baptizes. In a case of necessity, any person — even a non-Christian — can baptize with water and the proper intention." data-es="En circunstancias ordinarias, bautiza un obispo, sacerdote o diácono. En caso de necesidad, cualquier persona — incluso un no cristiano — puede bautizar con agua y la intención debida.">In ordinary circumstances, a bishop, priest, or deacon baptizes. In a case of necessity, any person — even a non-Christian — can baptize with water and the proper intention.</div></div></div></div>
+    <div class="content-section"><div class="section-label" data-en="The Four Essential Elements" data-es="Los Cuatro Elementos Esenciales">The Four Essential Elements</div><div class="essentials-grid"><div class="essential-card"><span class="essential-icon">💧</span><div class="essential-title" data-en="Water" data-es="El Agua">Water</div><div class="essential-text" data-en="The matter of the sacrament — poured or by immersion — signifying the washing away of sin and new birth in the Spirit." data-es="La materia del sacramento — derramada o por inmersión — que significa el lavado del pecado y el nuevo nacimiento en el Espíritu.">The matter of the sacrament — poured or by immersion — signifying the washing away of sin and new birth in the Spirit.</div></div><div class="essential-card"><span class="essential-icon">🕊️</span><div class="essential-title" data-en="The Trinitarian Formula" data-es="La Fórmula Trinitaria">The Trinitarian Formula</div><div class="essential-text" data-en="&quot;I baptize you in the name of the Father, and of the Son, and of the Holy Spirit.&quot; These words are absolutely essential to the validity of Baptism." data-es="&quot;Yo te bautizo en el nombre del Padre, y del Hijo, y del Espíritu Santo.&quot; Estas palabras son absolutamente esenciales para la validez del Bautismo.">&quot;I baptize you in the name of the Father, and of the Son, and of the Holy Spirit.&quot; These words are absolutely essential to the validity of Baptism.</div></div><div class="essential-card"><span class="essential-icon">🕯️</span><div class="essential-title" data-en="Indelible Character" data-es="Carácter Indeleble">Indelible Character</div><div class="essential-text" data-en="Baptism imprints an indelible spiritual mark on the soul — a character — that consecrates the person permanently for divine worship. This is why Baptism cannot be repeated." data-es="El Bautismo imprime en el alma una marca espiritual indeleble — un carácter — que consagra a la persona permanentemente para el culto divino. Por eso el Bautismo no puede repetirse.">Baptism imprints an indelible spiritual mark on the soul — a character — that consecrates the person permanently for divine worship. This is why Baptism cannot be repeated.</div></div><div class="essential-card"><span class="essential-icon">⛪</span><div class="essential-title" data-en="Incorporation into the Church" data-es="Incorporación a la Iglesia">Incorporation into the Church</div><div class="essential-text" data-en="Through Baptism we are incorporated into the Body of Christ, becoming members of the Church and heirs to the promise of eternal life." data-es="Por el Bautismo somos incorporados al Cuerpo de Cristo, convirtiéndonos en miembros de la Iglesia y herederos de la promesa de la vida eterna.">Through Baptism we are incorporated into the Body of Christ, becoming members of the Church and heirs to the promise of eternal life.</div></div><div class="essential-card"><span class="essential-icon">🌊</span><div class="essential-title" data-en="Threefold Effects" data-es="Triple Efecto">Threefold Effects</div><div class="essential-text" data-en="Baptism forgives original sin and all personal sins, bestows sanctifying grace and the theological virtues, and makes us temples of the Holy Spirit." data-es="El Bautismo perdona el pecado original y todos los pecados personales, otorga la gracia santificante y las virtudes teologales, y nos hace templos del Espíritu Santo.">Baptism forgives original sin and all personal sins, bestows sanctifying grace and the theological virtues, and makes us temples of the Holy Spirit.</div></div><div class="essential-card"><span class="essential-icon">👤</span><div class="essential-title" data-en="Who Can Baptize?" data-es="¿Quién Puede Bautizar?">Who Can Baptize?</div><div class="essential-text" data-en="In ordinary circumstances, a bishop, priest, or deacon baptizes. In a case of necessity, any person — even a non-Christian — can baptize with water and the proper intention." data-es="En circunstancias ordinarias, bautiza un obispo, sacerdote o diácono. En caso de necesidad, cualquier persona — incluso un no cristiano — puede bautizar con agua y la intención debida.">In ordinary circumstances, a bishop, priest, or deacon baptizes. In a case of necessity, any person — even a non-Christian — can baptize with water and the proper intention.</div></div>
+            <div class="essential-card">
+              <span class="essential-icon">🕊️</span>
+              <div class="essential-title" data-en="Three Kinds of Baptism" data-es="Tres Tipos de Bautismo">Three Kinds of Baptism</div>
+              <div class="essential-text" data-en="The Church recognizes Baptism of Water (the sacrament itself); Baptism of Blood (martyrdom before receiving water Baptism); and Baptism of Desire (sincere seeking of God by one who does not know Baptism is necessary). God is not bound by his sacraments (CCC 1258–1260)." data-es="La Iglesia reconoce el Bautismo de Agua (el sacramento mismo); el Bautismo de Sangre (martirio antes de recibir el agua); y el Bautismo de Deseo (búsqueda sincera de Dios por quien no conoce el Bautismo). Dios no está limitado por sus sacramentos (CIC 1258–1260).">The Church recognizes Baptism of Water (the sacrament itself); Baptism of Blood (martyrdom before receiving water Baptism); and Baptism of Desire (sincere seeking of God by one who does not know Baptism is necessary). God is not bound by his sacraments (CCC 1258–1260).</div>
+            </div></div></div>
   </div>
 
   <div class="tab-panel" id="tab-confirmation">
@@ -1243,7 +1535,212 @@ function setLang(lang) {
     <div class="content-section"><div class="section-label" data-en="Scriptural Foundation" data-es="Fundamento Bíblico">Scriptural Foundation</div><div class="scripture-list"><div class="scripture-card"><div class="scripture-ref" data-en="John 20:22–23" data-es="Juan 20:22–23">John 20:22–23</div><div class="scripture-text" data-en="&quot;He breathed on them and said, "Receive the Holy Spirit. If you forgive the sins of any, they are forgiven them; if you withhold forgiveness from any, it is withheld."&quot;" data-es="&quot;Sopló sobre ellos y les dijo: "Reciban el Espíritu Santo. A quienes perdonen los pecados, les quedan perdonados; a quienes se los retengan, les quedan retenidos."&quot;">"He breathed on them and said, "Receive the Holy Spirit. If you forgive the sins of any, they are forgiven them; if you withhold forgiveness from any, it is withheld.""</div></div><div class="scripture-card"><div class="scripture-ref" data-en="Luke 15:20" data-es="Lucas 15:20">Luke 15:20</div><div class="scripture-text" data-en="&quot;But while he was still a long way off, his father saw him and felt compassion, and ran and embraced him and kissed him. — The Parable of the Prodigal Son&quot;" data-es="&quot;Cuando todavía estaba lejos, su padre lo vio y se compadeció; corrió a su encuentro, se echó sobre su cuello y lo besó. — La Parábola del Hijo Pródigo&quot;">"But while he was still a long way off, his father saw him and felt compassion, and ran and embraced him and kissed him. — The Parable of the Prodigal Son"</div></div></div></div>
     <div class="content-section"><div class="section-label" data-en="From the Catechism" data-es="Del Catecismo">From the Catechism</div><div class="catechism-block"><p class="catechism-quote" data-en="Those who approach the sacrament of Penance obtain pardon from God's mercy for the offense committed against him, and are, at the same time, reconciled with the Church." data-es="Los que se acercan al sacramento de la Penitencia obtienen de la misericordia de Dios el perdón de la ofensa hecha a Él y al mismo tiempo se reconcilian con la Iglesia.">Those who approach the sacrament of Penance obtain pardon from God's mercy for the offense committed against him, and are, at the same time, reconciled with the Church.</p><span class="catechism-ref">CCC 1422</span></div></div>
     <div class="content-section"><div class="section-label" data-en="Wisdom of the Saints" data-es="Sabiduría de los Santos">Wisdom of the Saints</div><div class="saint-block"><p class="saint-quote" data-en="&quot;Go to confession frequently. Confession is an act of honesty and courage — an act of entrusting ourselves to the mercy of a loving and forgiving God.&quot;" data-es="&quot;Vayan a confesarse con frecuencia. La confesión es un acto de honestidad y valentía — un acto de confiarnos a la misericordia de un Dios amoroso y misericordioso.&quot;">"Go to confession frequently. Confession is an act of honesty and courage — an act of entrusting ourselves to the mercy of a loving and forgiving God."</p><div class="saint-attribution" data-en="— St. John Paul II / San Juan Pablo II" data-es="— San Juan Pablo II">— St. John Paul II / San Juan Pablo II</div></div></div>
-    <div class="content-section"><div class="section-label" data-en="The Five Acts of the Penitent" data-es="Los Cinco Actos del Penitente">The Five Acts of the Penitent</div><div class="essentials-grid"><div class="essential-card"><span class="essential-icon">🔍</span><div class="essential-title" data-en="1. Examination of Conscience" data-es="1. Examen de Conciencia">1. Examination of Conscience</div><div class="essential-text" data-en="Prayerfully review your thoughts, words, deeds, and omissions since your last confession." data-es="Revisa con oración tus pensamientos, palabras, obras y omisiones desde tu última confesión.">Prayerfully review your thoughts, words, deeds, and omissions since your last confession.</div></div><div class="essential-card"><span class="essential-icon">💔</span><div class="essential-title" data-en="2. Contrition" data-es="2. Contrición">2. Contrition</div><div class="essential-text" data-en="Genuine sorrow for sins motivated not only by fear, but by love of God whom we have offended." data-es="Dolor genuino por los pecados, motivado no solo por el miedo, sino por el amor a Dios a quien hemos ofendido.">Genuine sorrow for sins motivated not only by fear, but by love of God whom we have offended.</div></div><div class="essential-card"><span class="essential-icon">🤐</span><div class="essential-title" data-en="3. Resolution Not to Sin Again" data-es="3. Propósito de Enmienda">3. Resolution Not to Sin Again</div><div class="essential-text" data-en="A firm intention to avoid sin and its near occasions, relying on God's grace." data-es="Intención firme de evitar el pecado y sus ocasiones próximas, apoyándose en la gracia de Dios.">A firm intention to avoid sin and its near occasions, relying on God's grace.</div></div><div class="essential-card"><span class="essential-icon">🗣️</span><div class="essential-title" data-en="4. Confession of Sins" data-es="4. Confesión de los Pecados">4. Confession of Sins</div><div class="essential-text" data-en="Tell all mortal sins (kind and number) to the priest. The seal of confession is absolute and inviolable." data-es="Decir al sacerdote todos los pecados mortales (especie y número). El sigilo de confesión es absoluto e inviolable.">Tell all mortal sins (kind and number) to the priest. The seal of confession is absolute and inviolable.</div></div><div class="essential-card"><span class="essential-icon">✅</span><div class="essential-title" data-en="5. Penance" data-es="5. Penitencia">5. Penance</div><div class="essential-text" data-en="Accept and fulfill the penance given by the priest as a sign of love and reparation for sin." data-es="Acepta y cumple la penitencia dada por el sacerdote como signo de amor y reparación por el pecado.">Accept and fulfill the penance given by the priest as a sign of love and reparation for sin.</div></div><div class="essential-card"><span class="essential-icon">🔓</span><div class="essential-title" data-en="Sacramental Absolution" data-es="Absolución Sacramental">Sacramental Absolution</div><div class="essential-text" data-en="The priest, acting in the person of Christ, pronounces the words of absolution." data-es="El sacerdote, actuando en la persona de Cristo, pronuncia las palabras de absolución.">The priest, acting in the person of Christ, pronounces the words of absolution.</div></div></div></div>
+    <div class="content-section"><div class="section-label" data-en="The Five Acts of the Penitent" data-es="Los Cinco Actos del Penitente">The Five Acts of the Penitent</div><div class="essentials-grid"><div class="essential-card"><span class="essential-icon">🔍</span><div class="essential-title" data-en="1. Examination of Conscience" data-es="1. Examen de Conciencia">1. Examination of Conscience</div><div class="essential-text" data-en="Prayerfully review your thoughts, words, deeds, and omissions since your last confession." data-es="Revisa con oración tus pensamientos, palabras, obras y omisiones desde tu última confesión.">Prayerfully review your thoughts, words, deeds, and omissions since your last confession.</div></div><div class="essential-card"><span class="essential-icon">💔</span><div class="essential-title" data-en="2. Contrition" data-es="2. Contrición">2. Contrition</div><div class="essential-text" data-en="Genuine sorrow for sins motivated not only by fear, but by love of God whom we have offended." data-es="Dolor genuino por los pecados, motivado no solo por el miedo, sino por el amor a Dios a quien hemos ofendido.">Genuine sorrow for sins motivated not only by fear, but by love of God whom we have offended.</div></div><div class="essential-card"><span class="essential-icon">🤐</span><div class="essential-title" data-en="3. Resolution Not to Sin Again" data-es="3. Propósito de Enmienda">3. Resolution Not to Sin Again</div><div class="essential-text" data-en="A firm intention to avoid sin and its near occasions, relying on God's grace." data-es="Intención firme de evitar el pecado y sus ocasiones próximas, apoyándose en la gracia de Dios.">A firm intention to avoid sin and its near occasions, relying on God's grace.</div></div><div class="essential-card"><span class="essential-icon">🗣️</span><div class="essential-title" data-en="4. Confession of Sins" data-es="4. Confesión de los Pecados">4. Confession of Sins</div><div class="essential-text" data-en="Mortal sins must be confessed by kind and approximate number. Venial sins are encouraged but not strictly required. The seal of confession is absolute and inviolable — the priest may never reveal what he hears." data-es="Decir al sacerdote todos los pecados mortales (especie y número). El sigilo de confesión es absoluto e inviolable.">Tell all mortal sins (kind and number) to the priest. The seal of confession is absolute and inviolable.</div></div><div class="essential-card"><span class="essential-icon">✅</span><div class="essential-title" data-en="5. Penance" data-es="5. Penitencia">5. Penance</div><div class="essential-text" data-en="Accept and fulfill the penance given by the priest as a sign of love and reparation for sin." data-es="Acepta y cumple la penitencia dada por el sacerdote como signo de amor y reparación por el pecado.">Accept and fulfill the penance given by the priest as a sign of love and reparation for sin.</div></div><div class="essential-card"><span class="essential-icon">🔓</span><div class="essential-title" data-en="Sacramental Absolution" data-es="Absolución Sacramental">Sacramental Absolution</div><div class="essential-text" data-en="The priest, acting in the person of Christ, pronounces the words of absolution." data-es="El sacerdote, actuando en la persona de Cristo, pronuncia las palabras de absolución.">The priest, acting in the person of Christ, pronounces the words of absolution.</div></div></div></div>
+
+    <div class="content-section">
+      <div class="section-label" data-en="Examination of Conscience — The Ten Commandments &amp; Seven Deadly Sins" data-es="Examen de Conciencia — Los Diez Mandamientos y los Siete Pecados Capitales">Examination of Conscience — The Ten Commandments &amp; Seven Deadly Sins</div>
+      <p class="body-text" data-en="Before Confession, take quiet time to prayerfully examine your conscience. Begin with this prayer, then open each commandment and reflect honestly. The Seven Deadly Sins (Pride, Greed, Lust, Envy, Gluttony, Wrath, Sloth) are the root dispositions from which many sins flow — they are examined within each commandment where they apply." data-es="Antes de la Confesión, tómate tiempo en oración para examinar tu conciencia. Comienza con esta oración, luego abre cada mandamiento y reflexiona honestamente. Los Siete Pecados Capitales (Soberbia, Avaricia, Lujuria, Envidia, Gula, Ira, Pereza) son las disposiciones raíz de las que fluyen muchos pecados — se examinan dentro de cada mandamiento donde aplican.">Before Confession, take quiet time to prayerfully examine your conscience. Begin with this prayer, then open each commandment and reflect honestly. The Seven Deadly Sins (Pride, Greed, Lust, Envy, Gluttony, Wrath, Sloth) are the root dispositions from which many sins flow — they are examined within each commandment where they apply.</p>
+
+      <div class="catechism-block" style="margin-bottom:1rem;">
+        <p class="catechism-quote" data-en="Come, Holy Spirit. Enlighten my mind and soften my heart. Let me see my sins as they truly are — not to shame me, but to free me. Give me the courage to confess honestly and the trust to receive your mercy. Lord, I am sorry. I want to love you. Amen." data-es="Ven, Espíritu Santo. Ilumina mi mente y ablanda mi corazón. Déjame ver mis pecados tal como son — no para avergonzarme, sino para liberarme. Dame el valor de confesar con honestidad y la confianza de recibir tu misericordia. Señor, lo siento. Quiero amarte. Amén.">Come, Holy Spirit. Enlighten my mind and soften my heart. Let me see my sins as they truly are — not to shame me, but to free me. Give me the courage to confess honestly and the trust to receive your mercy. Lord, I am sorry. I want to love you. Amen.</p>
+      </div>
+
+      <div class="accordion-list">
+
+        <div class="accordion-item">
+          <button class="accordion-trigger" onclick="toggleAccordion(this)">
+            <span data-en="I. No other gods — Pride &amp; Idolatry" data-es="I. No tendrás otros dioses — Soberbia e Idolatría">I. No other gods — Pride &amp; Idolatry</span>
+            <span class="accordion-icon">+</span>
+          </button>
+          <div class="accordion-body">
+            <p class="body-text" style="font-weight:600;margin-bottom:0.4rem;" data-en="You shall have no other gods before me." data-es="No tendrás otros dioses fuera de mí.">You shall have no other gods before me.</p>
+            <p class="body-text" data-en="Have I neglected daily prayer or treated God as unimportant in my life? Have I missed Sunday Mass without a serious reason? Have I trusted in horoscopes, fortune-tellers, crystals, or New Age spirituality? Have I been involved in the occult or spiritism? Have I received the Eucharist while in a state of mortal sin? Have I put my faith in luck, superstition, or magic? Have I doubted or flatly rejected a defined teaching of the Church?" data-es="¿He descuidado la oración diaria o tratado a Dios como algo sin importancia? ¿He faltado a la Misa dominical sin razón grave? ¿He confiado en horóscopos, adivinos, cristales o espiritualidad Nueva Era? ¿He participado en el ocultismo o el espiritismo? ¿He recibido la Eucaristía en estado de pecado mortal? ¿He creído en la suerte, la superstición o la magia? ¿He dudado o rechazado una enseñanza definida de la Iglesia?">Have I neglected daily prayer or treated God as unimportant in my life? Have I missed Sunday Mass without a serious reason? Have I trusted in horoscopes, fortune-tellers, crystals, or New Age spirituality? Have I been involved in the occult or spiritism? Have I received the Eucharist while in a state of mortal sin? Have I put my faith in luck, superstition, or magic? Have I doubted or flatly rejected a defined teaching of the Church?</p>
+            <p class="body-text" style="margin-top:0.75rem;color:var(--habit);font-style:italic;" data-en="🔥 Pride: Have I made myself the center of my life — acting as though I need no one, including God? Have I refused to ask for help, admit fault, or receive correction? Have I looked down on others who I consider beneath me spiritually or morally? Pride is the root of all sin — the turning of the self away from God." data-es="🔥 Soberbia: ¿Me he puesto en el centro de mi vida — actuando como si no necesitara a nadie, incluyendo a Dios? ¿Me he negado a pedir ayuda, admitir errores o recibir correcciones? ¿He menospreciado a otros que considero inferiores espiritual o moralmente? La soberbia es la raíz de todo pecado — el giro del yo lejos de Dios.">🔥 Pride: Have I made myself the center of my life — acting as though I need no one, including God? Have I refused to ask for help, admit fault, or receive correction? Have I looked down on others who I consider beneath me spiritually or morally? Pride is the root of all sin — the turning of the self away from God.</p>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <button class="accordion-trigger" onclick="toggleAccordion(this)">
+            <span data-en="II. God's Name — Pride &amp; Irreverence" data-es="II. El Nombre de Dios — Soberbia e Irreverencia">II. God's Name — Pride &amp; Irreverence</span>
+            <span class="accordion-icon">+</span>
+          </button>
+          <div class="accordion-body">
+            <p class="body-text" style="font-weight:600;margin-bottom:0.4rem;" data-en="You shall not take the name of the Lord your God in vain." data-es="No tomarás el nombre de Dios en vano.">You shall not take the name of the Lord your God in vain.</p>
+            <p class="body-text" data-en="Have I used God's name, Jesus' name, or the names of Mary and the saints as curses or careless exclamations? Have I blasphemed — spoken hatefully or contemptuously about God, the Church, or sacred things? Have I made vows or solemn promises in God's name that I did not keep? Have I taken oaths carelessly or falsely? Have I mocked or ridiculed religion, priests, or the faithful?" data-es="¿He usado el nombre de Dios, de Jesús, de María o de los santos como insultos o exclamaciones irreflexivas? ¿He blasfemado — hablado con odio o desprecio sobre Dios, la Iglesia o las cosas sagradas? ¿He hecho votos o promesas solemnes en nombre de Dios que no cumplí? ¿He jurado a la ligera o falsamente? ¿He burlado o ridiculizado la religión, a los sacerdotes o a los fieles?">Have I used God's name, Jesus' name, or the names of Mary and the saints as curses or careless exclamations? Have I blasphemed — spoken hatefully or contemptuously about God, the Church, or sacred things? Have I made vows or solemn promises in God's name that I did not keep? Have I taken oaths carelessly or falsely? Have I mocked or ridiculed religion, priests, or the faithful?</p>
+            <p class="body-text" style="margin-top:0.75rem;color:var(--habit);font-style:italic;" data-en="🔥 Pride: Irreverence toward God's name often flows from pride — the belief that God is not worthy of our care or reverence. Have I spoken about God casually, as though he were a peer rather than the Lord of all creation?" data-es="🔥 Soberbia: La irreverencia hacia el nombre de Dios suele brotar de la soberbia — la creencia de que Dios no merece nuestro cuidado o reverencia. ¿He hablado de Dios casualmente, como si fuera un igual en lugar del Señor de toda la creación?">🔥 Pride: Irreverence toward God's name often flows from pride — the belief that God is not worthy of our care or reverence. Have I spoken about God casually, as though he were a peer rather than the Lord of all creation?</p>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <button class="accordion-trigger" onclick="toggleAccordion(this)">
+            <span data-en="III. The Lord's Day — Sloth &amp; Ingratitude" data-es="III. El Día del Señor — Pereza e Ingratitud">III. The Lord's Day — Sloth &amp; Ingratitude</span>
+            <span class="accordion-icon">+</span>
+          </button>
+          <div class="accordion-body">
+            <p class="body-text" style="font-weight:600;margin-bottom:0.4rem;" data-en="Remember the Sabbath day, to keep it holy." data-es="Santificarás las fiestas.">Remember the Sabbath day, to keep it holy.</p>
+            <p class="body-text" data-en="Have I missed Mass on Sundays or Holy Days of Obligation without a grave reason such as illness, caring for someone seriously ill, or lack of access to a church? Have I arrived habitually late or left early? Have I been distracted, irreverent, or on my phone during Mass? Have I failed to observe Sunday as a day of rest, family, and God — filling it entirely with work and entertainment? Have I prevented others in my household from attending Mass?" data-es="¿He faltado a Misa los domingos o en días de precepto sin una razón grave como enfermedad, cuidar a un enfermo grave o falta de acceso a una iglesia? ¿He llegado habitualmente tarde o salido temprano? ¿He sido distraído, irreverente o usado el teléfono durante la Misa? ¿He dejado de observar el domingo como día de descanso, familia y Dios — llenándolo enteramente de trabajo y entretenimiento? ¿He impedido a otros en mi hogar asistir a Misa?">Have I missed Mass on Sundays or Holy Days of Obligation without a grave reason such as illness, caring for someone seriously ill, or lack of access to a church? Have I arrived habitually late or left early? Have I been distracted, irreverent, or on my phone during Mass? Have I failed to observe Sunday as a day of rest, family, and God — filling it entirely with work and entertainment? Have I prevented others in my household from attending Mass?</p>
+            <p class="body-text" style="margin-top:0.75rem;color:var(--habit);font-style:italic;" data-en="🔥 Sloth (Acedia): Have I grown spiritually lazy — skipping prayer, avoiding the sacraments, or treating my faith as a burden rather than a gift? Sloth is not mere laziness; it is a sadness about spiritual goods — a resistance to the effort that love of God requires. Have I let busyness, tiredness, or comfort consistently crowd God out?" data-es="🔥 Pereza (Acedia): ¿Me he vuelto espiritualmente perezoso — saltando la oración, evitando los sacramentos o tratando mi fe como una carga en lugar de un regalo? La pereza no es mera flojera; es una tristeza ante los bienes espirituales — una resistencia al esfuerzo que el amor a Dios requiere. ¿He dejado que el ajetreo, el cansancio o la comodidad desplacen constantemente a Dios?">🔥 Sloth (Acedia): Have I grown spiritually lazy — skipping prayer, avoiding the sacraments, or treating my faith as a burden rather than a gift? Sloth is not mere laziness; it is a sadness about spiritual goods — a resistance to the effort that love of God requires. Have I let busyness, tiredness, or comfort consistently crowd God out?</p>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <button class="accordion-trigger" onclick="toggleAccordion(this)">
+            <span data-en="IV. Parents &amp; Authority — Pride &amp; Ingratitude" data-es="IV. Padres y Autoridad — Soberbia e Ingratitud">IV. Parents &amp; Authority — Pride &amp; Ingratitude</span>
+            <span class="accordion-icon">+</span>
+          </button>
+          <div class="accordion-body">
+            <p class="body-text" style="font-weight:600;margin-bottom:0.4rem;" data-en="Honor your father and your mother." data-es="Honrarás a tu padre y a tu madre.">Honor your father and your mother.</p>
+            <p class="body-text" data-en="Have I been disrespectful, cruel, or dismissive toward my parents — in words, attitudes, or actions? Have I failed to care for aging or ill parents when it was in my power to do so? As a parent: Have I provided for my children's physical, emotional, and spiritual needs? Have I brought them to Mass and taught them the faith? Have I set a good example? Have I been harsh, neglectful, or abusive? Have I respected legitimate civil and Church authority?" data-es="¿He sido irrespetuoso, cruel o despectivo con mis padres — en palabras, actitudes u acciones? ¿He fallado en cuidar a mis padres ancianos o enfermos cuando estaba en mi poder hacerlo? Como padre/madre: ¿He provisto las necesidades físicas, emocionales y espirituales de mis hijos? ¿Los he llevado a Misa y enseñado la fe? ¿He dado buen ejemplo? ¿He sido duro, negligente o abusivo? ¿He respetado la autoridad civil y de la Iglesia?">Have I been disrespectful, cruel, or dismissive toward my parents — in words, attitudes, or actions? Have I failed to care for aging or ill parents when it was in my power to do so? As a parent: Have I provided for my children's physical, emotional, and spiritual needs? Have I brought them to Mass and taught them the faith? Have I set a good example? Have I been harsh, neglectful, or abusive? Have I respected legitimate civil and Church authority?</p>
+            <p class="body-text" style="margin-top:0.75rem;color:var(--habit);font-style:italic;" data-en="🔥 Pride: Have I refused to submit to anyone — parents, employers, the Church — because I believe I know better? Have I treated those in authority with contempt? True humility accepts that we are not the final authority over our own lives." data-es="🔥 Soberbia: ¿Me he negado a someterme a alguien — padres, empleadores, la Iglesia — porque creo que sé más? ¿He tratado a quienes tienen autoridad con desprecio? La verdadera humildad acepta que no somos la autoridad final sobre nuestras propias vidas.">🔥 Pride: Have I refused to submit to anyone — parents, employers, the Church — because I believe I know better? Have I treated those in authority with contempt? True humility accepts that we are not the final authority over our own lives.</p>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <button class="accordion-trigger" onclick="toggleAccordion(this)">
+            <span data-en="V. Life — Wrath, Envy &amp; Violence" data-es="V. La Vida — Ira, Envidia y Violencia">V. Life — Wrath, Envy &amp; Violence</span>
+            <span class="accordion-icon">+</span>
+          </button>
+          <div class="accordion-body">
+            <p class="body-text" style="font-weight:600;margin-bottom:0.4rem;" data-en="You shall not kill." data-es="No matarás.">You shall not kill.</p>
+            <p class="body-text" data-en="Have I physically harmed anyone? Have I had an abortion, procured one, or pressured someone toward one? Have I supported or assisted euthanasia or assisted suicide? Have I driven drunk or recklessly, endangering lives? Have I abused alcohol, drugs, or food in ways that harmed my health? Have I engaged in bullying, emotional abuse, or psychological cruelty? Have I harbored deep, sustained hatred, contempt, or the desire for revenge against anyone? Have I ever considered or attempted suicide? Have I failed to protect the vulnerable in my care?" data-es="¿He lastimado físicamente a alguien? ¿He tenido un aborto, procurado uno o presionado a alguien hacia uno? ¿He apoyado o asistido la eutanasia o el suicidio asistido? ¿He conducido borracho o imprudentemente, poniendo vidas en peligro? ¿He abusado del alcohol, las drogas o la comida de formas que dañaron mi salud? ¿He participado en bullying, abuso emocional o crueldad psicológica? ¿He albergado odio profundo y sostenido, desprecio o deseo de venganza hacia alguien? ¿He considerado o intentado el suicidio alguna vez? ¿He dejado de proteger a los vulnerables a mi cargo?">Have I physically harmed anyone? Have I had an abortion, procured one, or pressured someone toward one? Have I supported or assisted euthanasia or assisted suicide? Have I driven drunk or recklessly, endangering lives? Have I abused alcohol, drugs, or food in ways that harmed my health? Have I engaged in bullying, emotional abuse, or psychological cruelty? Have I harbored deep, sustained hatred, contempt, or the desire for revenge against anyone? Have I ever considered or attempted suicide? Have I failed to protect the vulnerable in my care?</p>
+            <p class="body-text" style="margin-top:0.75rem;color:var(--habit);font-style:italic;" data-en="🔥 Wrath: Have I lost my temper regularly, causing harm with my words or actions? Have I nursed grudges, refused to forgive, or sought revenge? Wrath that is deliberate, excessive, and sustained is sinful — it treats other persons as less than the image of God they bear. Have I let anger become a habit that controls me?" data-es="🔥 Ira: ¿He perdido los estribos regularmente, causando daño con mis palabras o acciones? ¿He albergado rencores, me he negado a perdonar o he buscado venganza? La ira que es deliberada, excesiva y sostenida es pecaminosa — trata a las personas como menos que la imagen de Dios que llevan. ¿He dejado que la ira se convierta en un hábito que me controla?">🔥 Wrath: Have I lost my temper regularly, causing harm with my words or actions? Have I nursed grudges, refused to forgive, or sought revenge? Wrath that is deliberate, excessive, and sustained is sinful — it treats other persons as less than the image of God they bear. Have I let anger become a habit that controls me?</p>
+            <p class="body-text" style="margin-top:0.5rem;color:var(--habit);font-style:italic;" data-en="🔥 Envy: Have I resented others' gifts, success, health, or happiness? Have I spoken ill of others to diminish them in others' eyes? Have I rejoiced at someone's misfortune? Envy is grief at another's good — it attacks the goodness of God himself, who gave those gifts." data-es="🔥 Envidia: ¿He resentido los dones, el éxito, la salud o la felicidad de otros? ¿He hablado mal de otros para disminuirlos ante los demás? ¿Me he alegrado ante la desgracia de alguien? La envidia es tristeza ante el bien ajeno — ataca la bondad de Dios mismo, quien dio esos dones.">🔥 Envy: Have I resented others' gifts, success, health, or happiness? Have I spoken ill of others to diminish them in others' eyes? Have I rejoiced at someone's misfortune? Envy is grief at another's good — it attacks the goodness of God himself, who gave those gifts.</p>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <button class="accordion-trigger" onclick="toggleAccordion(this)">
+            <span data-en="VI &amp; IX. Chastity — Lust" data-es="VI y IX. Castidad — Lujuria">VI &amp; IX. Chastity — Lust</span>
+            <span class="accordion-icon">+</span>
+          </button>
+          <div class="accordion-body">
+            <p class="body-text" style="font-weight:600;margin-bottom:0.4rem;" data-en="You shall not commit adultery. You shall not covet your neighbor's wife." data-es="No cometerás adulterio. No codiciarás la mujer de tu prójimo.">You shall not commit adultery. You shall not covet your neighbor's wife.</p>
+            <p class="body-text" data-en="Have I engaged in sexual activity outside of marriage (fornication, adultery, or other acts)? Have I been unfaithful to my spouse in thought, word, or deed? Have I viewed pornography or sexual content online? Have I engaged in impure conversations, texts, or media? Have I deliberately entertained lustful thoughts or fantasies? Have I acted against the Church's teaching on contraception, sterilization, or IVF? Have I dressed or behaved immodestly, leading others to sin? Have I treated others as objects for my own gratification rather than as persons created in God's image?" data-es="¿He tenido actividad sexual fuera del matrimonio (fornicación, adulterio u otros actos)? ¿He sido infiel a mi cónyuge en pensamiento, palabra u obra? ¿He visto pornografía o contenido sexual en línea? ¿He tenido conversaciones, mensajes o medios impuros? ¿He entretenido deliberadamente pensamientos o fantasías lujuriosas? ¿He actuado contra la enseñanza de la Iglesia sobre anticoncepción, esterilización o FIV? ¿Me he vestido o comportado de manera inmodes, llevando a otros al pecado? ¿He tratado a otros como objetos para mi propio placer en lugar de como personas creadas a imagen de Dios?">Have I engaged in sexual activity outside of marriage (fornication, adultery, or other acts)? Have I been unfaithful to my spouse in thought, word, or deed? Have I viewed pornography or sexual content online? Have I engaged in impure conversations, texts, or media? Have I deliberately entertained lustful thoughts or fantasies? Have I acted against the Church's teaching on contraception, sterilization, or IVF? Have I dressed or behaved immodestly, leading others to sin? Have I treated others as objects for my own gratification rather than as persons created in God's image?</p>
+            <p class="body-text" style="margin-top:0.75rem;color:var(--habit);font-style:italic;" data-en="🔥 Lust: Lust is the disordered desire for sexual pleasure sought for itself, outside of the loving, life-giving, faithful context of marriage. It reduces persons to bodies and pleasure to purpose. Have I cultivated a culture of purity in my life — in what I watch, read, seek out, and how I speak about and treat others?" data-es="🔥 Lujuria: La lujuria es el deseo desordenado de placer sexual buscado por sí mismo, fuera del contexto amoroso, dador de vida y fiel del matrimonio. Reduce a las personas a cuerpos y el placer a propósito. ¿He cultivado una cultura de pureza en mi vida — en lo que veo, leo, busco y cómo hablo y trato a los demás?">🔥 Lust: Lust is the disordered desire for sexual pleasure sought for itself, outside of the loving, life-giving, faithful context of marriage. It reduces persons to bodies and pleasure to purpose. Have I cultivated a culture of purity in my life — in what I watch, read, seek out, and how I speak about and treat others?</p>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <button class="accordion-trigger" onclick="toggleAccordion(this)">
+            <span data-en="VII &amp; X. Justice &amp; Property — Greed &amp; Envy" data-es="VII y X. Justicia y Propiedad — Avaricia y Envidia">VII &amp; X. Justice &amp; Property — Greed &amp; Envy</span>
+            <span class="accordion-icon">+</span>
+          </button>
+          <div class="accordion-body">
+            <p class="body-text" style="font-weight:600;margin-bottom:0.4rem;" data-en="You shall not steal. You shall not covet your neighbor's goods." data-es="No robarás. No codiciarás los bienes ajenos.">You shall not steal. You shall not covet your neighbor's goods.</p>
+            <p class="body-text" data-en="Have I stolen, shoplifted, or taken things that do not belong to me? Have I cheated on tests, taxes, expense reports, or in business? Have I defrauded employees of just wages or cheated contractors? Have I borrowed without intending to repay? Have I damaged someone's property and not made restitution? Have I wasted my employer's time or resources? Have I failed to give back what I've wrongly taken? Have I been stingy toward the poor or the Church when I had the means to give? Have I gambled irresponsibly, damaging my family's financial security?" data-es="¿He robado, hurtado en tiendas o tomado cosas que no me pertenecen? ¿He hecho trampa en exámenes, impuestos, informes de gastos o en negocios? ¿He defraudado a empleados de salarios justos o engañado a contratistas? ¿He pedido prestado sin intención de devolver? ¿He dañado la propiedad de alguien sin reparación? ¿He desperdiciado el tiempo o los recursos de mi empleador? ¿He dejado de devolver lo que tomé injustamente? ¿He sido tacaño con los pobres o la Iglesia cuando tenía medios para dar? ¿He apostado irresponsablemente, dañando la seguridad económica de mi familia?">Have I stolen, shoplifted, or taken things that do not belong to me? Have I cheated on tests, taxes, expense reports, or in business? Have I defrauded employees of just wages or cheated contractors? Have I borrowed without intending to repay? Have I damaged someone's property and not made restitution? Have I wasted my employer's time or resources? Have I failed to give back what I've wrongly taken? Have I been stingy toward the poor or the Church when I had the means to give? Have I gambled irresponsibly, damaging my family's financial security?</p>
+            <p class="body-text" style="margin-top:0.75rem;color:var(--habit);font-style:italic;" data-en="🔥 Greed (Avarice): Have I made the accumulation of money, possessions, or security an overriding goal? Have I been so focused on wealth that I've neglected God, family, or the poor? Greed treats material goods as ultimate goods — replacing God with things. &ldquo;You cannot serve God and money&rdquo; (Matthew 6:24)." data-es="🔥 Avaricia: ¿He hecho de la acumulación de dinero, posesiones o seguridad un objetivo primordial? ¿He estado tan centrado en la riqueza que he descuidado a Dios, la familia o los pobres? La avaricia trata los bienes materiales como bienes últimos — reemplazando a Dios con cosas. &ldquo;No pueden servir a Dios y al dinero&rdquo; (Mateo 6:24).">🔥 Greed (Avarice): Have I made the accumulation of money, possessions, or security an overriding goal? Have I been so focused on wealth that I've neglected God, family, or the poor? Greed treats material goods as ultimate goods — replacing God with things. &ldquo;You cannot serve God and money&rdquo; (Matthew 6:24).</p>
+            <p class="body-text" style="margin-top:0.5rem;color:var(--habit);font-style:italic;" data-en="🔥 Envy: Have I resented what others have — their wealth, home, job, or family — to the point of wishing they would lose it? Have I been ungrateful for what God has given me, always looking at what others have?" data-es="🔥 Envidia: ¿He resentido lo que otros tienen — su riqueza, hogar, trabajo o familia — hasta el punto de desear que lo pierdan? ¿He sido ingrato por lo que Dios me ha dado, mirando siempre lo que otros tienen?">🔥 Envy: Have I resented what others have — their wealth, home, job, or family — to the point of wishing they would lose it? Have I been ungrateful for what God has given me, always looking at what others have?</p>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <button class="accordion-trigger" onclick="toggleAccordion(this)">
+            <span data-en="VIII. Truth — Pride &amp; Dishonesty" data-es="VIII. La Verdad — Soberbia y Deshonestidad">VIII. Truth — Pride &amp; Dishonesty</span>
+            <span class="accordion-icon">+</span>
+          </button>
+          <div class="accordion-body">
+            <p class="body-text" style="font-weight:600;margin-bottom:0.4rem;" data-en="You shall not bear false witness against your neighbor." data-es="No darás falso testimonio ni mentirás.">You shall not bear false witness against your neighbor.</p>
+            <p class="body-text" data-en="Have I lied deliberately? Have I told half-truths intended to deceive? Have I committed calumny — making false statements that harmed someone's reputation? Have I committed detraction — revealing true but hidden faults unnecessarily, damaging someone's reputation? Have I gossiped, spread rumors, or delighted in others' failings? Have I broken a confidence or revealed secrets entrusted to me? Have I been hypocritical — acting one way publicly and another privately? Have I flattered people dishonestly to gain favor? Have I remained silent when I should have spoken the truth?" data-es="¿He mentido deliberadamente? ¿He dicho medias verdades con intención de engañar? ¿He cometido calumnia — hacer afirmaciones falsas que dañaron la reputación de alguien? ¿He cometido detracción — revelar faltas verdaderas pero ocultas innecesariamente, dañando la reputación de alguien? ¿He chismeado, difundido rumores o deleitado en los fallos ajenos? ¿He roto una confidencia o revelado secretos que me fueron confiados? ¿He sido hipócrita — actuando de una manera en público y de otra en privado? ¿He adulado deshonestamente para ganar favor? ¿Me he callado cuando debía haber dicho la verdad?">Have I lied deliberately? Have I told half-truths intended to deceive? Have I committed calumny — making false statements that harmed someone's reputation? Have I committed detraction — revealing true but hidden faults unnecessarily, damaging someone's reputation? Have I gossiped, spread rumors, or delighted in others' failings? Have I broken a confidence or revealed secrets entrusted to me? Have I been hypocritical — acting one way publicly and another privately? Have I flattered people dishonestly to gain favor? Have I remained silent when I should have spoken the truth?</p>
+            <p class="body-text" style="margin-top:0.75rem;color:var(--habit);font-style:italic;" data-en="🔥 Pride: Lying often serves pride — we lie to protect our image, avoid consequences, or maintain the appearance of virtue we don't have. Have I built a false self that others see, while hiding who I really am from God and others?" data-es="🔥 Soberbia: La mentira a menudo sirve a la soberbia — mentimos para proteger nuestra imagen, evitar consecuencias o mantener la apariencia de virtud que no tenemos. ¿He construido un yo falso que otros ven, mientras oculto quién soy realmente ante Dios y los demás?">🔥 Pride: Lying often serves pride — we lie to protect our image, avoid consequences, or maintain the appearance of virtue we don't have. Have I built a false self that others see, while hiding who I really am from God and others?</p>
+          </div>
+        </div>
+
+        <div class="accordion-item" style="border-left:3px solid var(--cord);background:rgba(196,154,108,0.04);">
+          <button class="accordion-trigger" onclick="toggleAccordion(this)">
+            <span data-en="The Seven Deadly Sins — Root Examination" data-es="Los Siete Pecados Capitales — Examen de Raíz">The Seven Deadly Sins — Root Examination</span>
+            <span class="accordion-icon">+</span>
+          </button>
+          <div class="accordion-body">
+            <p class="body-text" data-en="The Seven Deadly Sins are not seven additional sins to list in Confession — they are the deep roots from which countless sins grow. The Church calls them &ldquo;capital&rdquo; from the Latin caput (head) — they are the source-sins that generate others. Use this section to examine not just your actions but your habits, patterns, and interior dispositions." data-es="Los Siete Pecados Capitales no son siete pecados adicionales que listar en la Confesión — son las raíces profundas de las que crecen innumerables pecados. La Iglesia los llama &ldquo;capitales&rdquo; del latín caput (cabeza) — son los pecados-fuente que generan otros. Usa esta sección para examinar no solo tus acciones sino tus hábitos, patrones y disposiciones interiores.">The Seven Deadly Sins are not seven additional sins to list in Confession — they are the deep roots from which countless sins grow. The Church calls them &ldquo;capital&rdquo; from the Latin caput (head) — they are the source-sins that generate others. Use this section to examine not just your actions but your habits, patterns, and interior dispositions.</p>
+            <div class="essentials-grid" style="margin-top:0.75rem;gap:0.5rem;">
+              <div class="essential-card" style="padding:0.75rem;">
+                <div class="essential-title" style="font-size:0.75rem;" data-en="🔥 Pride — Superbia" data-es="🔥 Soberbia — Superbia">🔥 Pride — Superbia</div>
+                <div class="essential-text" data-en="Excessive love of self and one's own excellence. Generates: vainglory, ambition, boasting, hypocrisy, contention, disobedience. The root of all sin (CCC 1866). Remedy: Humility — seeing yourself as God sees you." data-es="Amor excesivo de uno mismo y de la propia excelencia. Genera: vanagloria, ambición, jactancia, hipocresía, discordia, desobediencia. La raíz de todo pecado (CIC 1866). Remedio: Humildad — verte como Dios te ve.">Excessive love of self and one's own excellence. Generates: vainglory, ambition, boasting, hypocrisy, contention, disobedience. The root of all sin (CCC 1866). Remedy: Humility — seeing yourself as God sees you.</div>
+              </div>
+              <div class="essential-card" style="padding:0.75rem;">
+                <div class="essential-title" style="font-size:0.75rem;" data-en="💰 Greed — Avaritia" data-es="💰 Avaricia — Avaritia">💰 Greed — Avaritia</div>
+                <div class="essential-text" data-en="Disordered desire for wealth or power. Generates: betrayal, fraud, deceit, perjury, restlessness. Remedy: Generosity and detachment from material goods." data-es="Deseo desordenado de riqueza o poder. Genera: traición, fraude, engaño, perjurio, inquietud. Remedio: Generosidad y desapego de los bienes materiales.">Disordered desire for wealth or power. Generates: betrayal, fraud, deceit, perjury, restlessness. Remedy: Generosity and detachment from material goods.</div>
+              </div>
+              <div class="essential-card" style="padding:0.75rem;">
+                <div class="essential-title" style="font-size:0.75rem;" data-en="❤️‍🔥 Lust — Luxuria" data-es="❤️‍🔥 Lujuria — Luxuria">❤️‍🔥 Lust — Luxuria</div>
+                <div class="essential-text" data-en="Disordered seeking of sexual pleasure. Generates: blindness of mind, rashness, inconstancy, self-love, hatred of God. Remedy: Chastity — rightly ordered love of persons." data-es="Búsqueda desordenada del placer sexual. Genera: ceguera mental, temeridad, inconstancia, amor propio, odio a Dios. Remedio: Castidad — amor correctamente ordenado hacia las personas.">Disordered seeking of sexual pleasure. Generates: blindness of mind, rashness, inconstancy, self-love, hatred of God. Remedy: Chastity — rightly ordered love of persons.</div>
+              </div>
+              <div class="essential-card" style="padding:0.75rem;">
+                <div class="essential-title" style="font-size:0.75rem;" data-en="💚 Envy — Invidia" data-es="💚 Envidia — Invidia">💚 Envy — Invidia</div>
+                <div class="essential-text" data-en="Sadness at another's good. Generates: hatred, detraction, calumny, rejoicing in a neighbor's misfortune. Envy is the most joyless sin — it cannot enjoy what it has or let others enjoy what they have. Remedy: Brotherly love and gratitude." data-es="Tristeza ante el bien ajeno. Genera: odio, detracción, calumnia, regocijo ante la desgracia ajena. La envidia es el pecado más sin alegría — no puede disfrutar lo que tiene ni dejar a otros disfrutar lo que tienen. Remedio: Amor fraterno y gratitud.">Sadness at another's good. Generates: hatred, detraction, calumny, rejoicing in a neighbor's misfortune. Envy is the most joyless sin — it cannot enjoy what it has or let others enjoy what they have. Remedy: Brotherly love and gratitude.</div>
+              </div>
+              <div class="essential-card" style="padding:0.75rem;">
+                <div class="essential-title" style="font-size:0.75rem;" data-en="😤 Gluttony — Gula" data-es="😤 Gula — Gula">😤 Gluttony — Gula</div>
+                <div class="essential-text" data-en="Immoderate indulgence in food, drink, or any bodily pleasure. Generates: dullness of mind toward spiritual things, excessive self-regard. Have I used food, alcohol, or other pleasures as escape from responsibility or pain? Remedy: Temperance and fasting." data-es="Indulgencia desmedida en comida, bebida o cualquier placer corporal. Genera: torpeza mental ante las cosas espirituales, excesivo autoconsumo. ¿He usado la comida, el alcohol u otros placeres como escape de la responsabilidad o el dolor? Remedio: Templanza y ayuno.">Immoderate indulgence in food, drink, or any bodily pleasure. Generates: dullness of mind toward spiritual things, excessive self-regard. Have I used food, alcohol, or other pleasures as escape from responsibility or pain? Remedy: Temperance and fasting.</div>
+              </div>
+              <div class="essential-card" style="padding:0.75rem;">
+                <div class="essential-title" style="font-size:0.75rem;" data-en="😡 Wrath — Ira" data-es="😡 Ira — Ira">😡 Wrath — Ira</div>
+                <div class="essential-text" data-en="Disordered desire for revenge; inordinate anger. Generates: quarreling, swelling of the mind, insults, clamor, indignation, blasphemy. Have I let anger become a pattern that controls my relationships? Remedy: Meekness, patience, and forgiveness." data-es="Deseo desordenado de venganza; ira desmedida. Genera: peleas, inflamación del ánimo, insultos, clamor, indignación, blasfemia. ¿He dejado que la ira se convierta en un patrón que controla mis relaciones? Remedio: Mansedumbre, paciencia y perdón.">Disordered desire for revenge; inordinate anger. Generates: quarreling, swelling of the mind, insults, clamor, indignation, blasphemy. Have I let anger become a pattern that controls my relationships? Remedy: Meekness, patience, and forgiveness.</div>
+              </div>
+              <div class="essential-card" style="padding:0.75rem;">
+                <div class="essential-title" style="font-size:0.75rem;" data-en="😴 Sloth — Acedia" data-es="😴 Pereza — Acedia">😴 Sloth — Acedia</div>
+                <div class="essential-text" data-en="Sorrow or weariness at spiritual goods; spiritual laziness. Generates: malice, spite, cowardice, despair, and wandering of the mind. Have I been indifferent to my own spiritual growth? Have I consistently avoided what God calls me to? Remedy: Diligence, zeal, and persistent prayer." data-es="Tristeza o cansancio ante los bienes espirituales; pereza espiritual. Genera: malicia, rencor, cobardía, desesperación y divagación mental. ¿He sido indiferente a mi propio crecimiento espiritual? ¿He evitado consistentemente lo que Dios me llama a hacer? Remedio: Diligencia, celo y oración perseverante.">Sorrow or weariness at spiritual goods; spiritual laziness. Generates: malice, spite, cowardice, despair, and wandering of the mind. Have I been indifferent to my own spiritual growth? Have I consistently avoided what God calls me to? Remedy: Diligence, zeal, and persistent prayer.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="catechism-block" style="margin-top:1.25rem;">
+        <p class="catechism-quote" data-en="Lord Jesus, before I receive your mercy in this sacrament, open my eyes to see my sins as you see them — not to condemn me, but to heal me. Give me true sorrow born of love, not fear, and the courage to confess honestly. Increase my trust in your mercy. Amen." data-es="Señor Jesús, antes de recibir tu misericordia en este sacramento, abre mis ojos para ver mis pecados tal como tú los ves — no para condenarme, sino para sanarme. Dame un verdadero arrepentimiento nacido del amor, no del miedo, y el valor de confesar con honestidad. Aumenta mi confianza en tu misericordia. Amén.">Lord Jesus, before I receive your mercy in this sacrament, open my eyes to see my sins as you see them — not to condemn me, but to heal me. Give me true sorrow born of love, not fear, and the courage to confess honestly. Increase my trust in your mercy. Amen.</p>
+      </div>
+    </div>
+
+    <div class="content-section">
+      <div class="section-label" data-en="The Ignatian Examen — A Daily Prayer of Review" data-es="El Examen Ignaciano — Una Oración Diaria de Revisión">The Ignatian Examen — A Daily Prayer of Review</div>
+      <p class="body-text" data-en="The Examen is not Confession — it is a daily prayer St. Ignatius of Loyola taught to help us find God in all things and grow in self-knowledge. Prayed each evening, it takes only 10–15 minutes and gradually transforms how we see our lives." data-es="El Examen no es la Confesión — es una oración diaria que San Ignacio de Loyola enseñó para ayudarnos a encontrar a Dios en todas las cosas y crecer en autoconocimiento. Se reza cada tarde, toma solo 10–15 minutos y transforma gradualmente cómo vemos nuestras vidas.">The Examen is not Confession — it is a daily prayer St. Ignatius of Loyola taught to help us find God in all things and grow in self-knowledge. Prayed each evening, it takes only 10–15 minutes and gradually transforms how we see our lives.</p>
+
+      <div class="essentials-grid" style="margin-top:1rem;">
+
+        <div class="essential-card" style="border-top:3px solid #4A6741;">
+          <span class="essential-icon">🙏</span>
+          <div class="essential-title" data-en="Step 1 — Give Thanks" data-es="Paso 1 — Da Gracias">Step 1 — Give Thanks</div>
+          <div class="essential-text" data-en="Begin with gratitude. Ask God to help you see the day through his eyes. What gifts — large or small — did you receive today? A kind word, a meal, a moment of beauty, a grace you almost missed. Thank God for each one. This grounds the Examen in love, not fear." data-es="Comienza con gratitud. Pide a Dios que te ayude a ver el día con sus ojos. ¿Qué dones — grandes o pequeños — recibiste hoy? Una palabra amable, una comida, un momento de belleza, una gracia que casi pasaste por alto. Agradece a Dios por cada uno. Esto ancla el Examen en el amor, no en el miedo.">Begin with gratitude. Ask God to help you see the day through his eyes. What gifts — large or small — did you receive today? A kind word, a meal, a moment of beauty, a grace you almost missed. Thank God for each one. This grounds the Examen in love, not fear.</div>
+        </div>
+
+        <div class="essential-card" style="border-top:3px solid #4A6741;">
+          <span class="essential-icon">🕊️</span>
+          <div class="essential-title" data-en="Step 2 — Ask for Light" data-es="Paso 2 — Pide Luz">Step 2 — Ask for Light</div>
+          <div class="essential-text" data-en="Ask the Holy Spirit to illumine your memory and your heart. You are not doing this self-examination alone — God is with you in it. Ask for the grace to see the day honestly: where you were faithful, and where you fell short. &ldquo;Search me, O God, and know my heart.&rdquo; (Psalm 139:23)" data-es="Pide al Espíritu Santo que ilumine tu memoria y tu corazón. No estás haciendo este examen solo — Dios está contigo en él. Pide la gracia de ver el día con honestidad: dónde fuiste fiel y dónde fallaste. &ldquo;Escudríñame, oh Dios, y conoce mi corazón.&rdquo; (Salmo 139:23)">Ask the Holy Spirit to illumine your memory and your heart. You are not doing this self-examination alone — God is with you in it. Ask for the grace to see the day honestly: where you were faithful, and where you fell short. &ldquo;Search me, O God, and know my heart.&rdquo; (Psalm 139:23)</div>
+        </div>
+
+        <div class="essential-card" style="border-top:3px solid #4A6741;">
+          <span class="essential-icon">🔍</span>
+          <div class="essential-title" data-en="Step 3 — Review the Day" data-es="Paso 3 — Revisa el Día">Step 3 — Review the Day</div>
+          <div class="essential-text" data-en="Walk slowly through your day from morning to now. Notice the movements of your heart. Where did you feel consolation — peace, joy, a drawing toward God and goodness? Where did you feel desolation — anxiety, irritability, a pull away from God? Where did you act well? Where did you fall short — in thought, word, deed, or omission?" data-es="Recorre despacio tu día desde la mañana hasta ahora. Nota los movimientos de tu corazón. ¿Dónde sentiste consolación — paz, alegría, un acercamiento a Dios y al bien? ¿Dónde sentiste desolación — ansiedad, irritabilidad, un alejamiento de Dios? ¿Dónde actuaste bien? ¿Dónde fallaste — en pensamiento, palabra, obra u omisión?">Walk slowly through your day from morning to now. Notice the movements of your heart. Where did you feel consolation — peace, joy, a drawing toward God and goodness? Where did you feel desolation — anxiety, irritability, a pull away from God? Where did you act well? Where did you fall short — in thought, word, deed, or omission?</div>
+        </div>
+
+        <div class="essential-card" style="border-top:3px solid #4A6741;">
+          <span class="essential-icon">💔</span>
+          <div class="essential-title" data-en="Step 4 — Sorrow &amp; Forgiveness" data-es="Paso 4 — Arrepentimiento y Perdón">Step 4 — Sorrow &amp; Forgiveness</div>
+          <div class="essential-text" data-en="Bring your failures honestly before God — not with self-loathing, but with the sorrow of a child who has disappointed a loving Father. Ask his forgiveness. Accept it. Ignatius insisted: the Examen is not about guilt — it is about encounter with God's mercy. Let God love you back to wholeness." data-es="Presenta tus fallos honestamente ante Dios — no con odio a ti mismo, sino con el arrepentimiento de un hijo que ha decepcionado a un Padre amoroso. Pide su perdón. Acéptalo. Ignacio insistía: el Examen no trata de culpa — trata del encuentro con la misericordia de Dios. Deja que Dios te ame de regreso a la plenitud.">Bring your failures honestly before God — not with self-loathing, but with the sorrow of a child who has disappointed a loving Father. Ask his forgiveness. Accept it. Ignatius insisted: the Examen is not about guilt — it is about encounter with God's mercy. Let God love you back to wholeness.</div>
+        </div>
+
+        <div class="essential-card" style="border-top:3px solid #4A6741;">
+          <span class="essential-icon">✦</span>
+          <div class="essential-title" data-en="Step 5 — Look Forward in Hope" data-es="Paso 5 — Mira al Futuro con Esperanza">Step 5 — Look Forward in Hope</div>
+          <div class="essential-text" data-en="Ask God for the grace you will need for tomorrow. Is there a situation coming that needs prayer? A relationship to mend? A temptation you can foresee? Entrust tomorrow to God's providence and close with a brief prayer — the Our Father, or simply: &ldquo;Lord, I give you tomorrow. Be with me.&rdquo;" data-es="Pide a Dios la gracia que necesitarás para mañana. ¿Hay una situación que se avecina y necesita oración? ¿Una relación que sanar? ¿Una tentación que puedes prever? Encomienda el mañana a la providencia de Dios y cierra con una breve oración — el Padrenuestro, o simplemente: &ldquo;Señor, te entrego el mañana. Está conmigo.&rdquo;">Ask God for the grace you will need for tomorrow. Is there a situation coming that needs prayer? A relationship to mend? A temptation you can foresee? Entrust tomorrow to God's providence and close with a brief prayer — the Our Father, or simply: &ldquo;Lord, I give you tomorrow. Be with me.&rdquo;</div>
+        </div>
+
+        <div class="essential-card" style="border-top:3px solid var(--cord);">
+          <span class="essential-icon">📅</span>
+          <div class="essential-title" data-en="When &amp; How Often?" data-es="¿Cuándo y Con Qué Frecuencia?">When &amp; How Often?</div>
+          <div class="essential-text" data-en="Ignatius taught praying the Examen twice daily — midday and evening. Most people find once a day, in the evening before sleep, most sustainable. Even 10 minutes of faithful daily Examen, practiced over months, transforms the interior life more than many longer but occasional devotions." data-es="Ignacio enseñó a rezar el Examen dos veces al día — al mediodía y por la tarde. La mayoría encuentra que una vez al día, por la tarde antes de dormir, es más sostenible. Incluso 10 minutos de Examen diario fiel, practicado durante meses, transforma la vida interior más que muchas devociones más largas pero ocasionales.">Ignatius taught praying the Examen twice daily — midday and evening. Most people find once a day, in the evening before sleep, most sustainable. Even 10 minutes of faithful daily Examen, practiced over months, transforms the interior life more than many longer but occasional devotions.</div>
+        </div>
+
+      </div>
+
+      <div class="catechism-block" style="margin-top:1.25rem;">
+        <p class="catechism-quote" data-en="&ldquo;The Examen is a review of the day in God's presence. It is not a guilt trip. It is meeting God in the texture of your life.&rdquo;" data-es="&ldquo;El Examen es una revisión del día en la presencia de Dios. No es un viaje de culpa. Es encontrarse con Dios en la textura de tu vida.&rdquo;">&ldquo;The Examen is a review of the day in God's presence. It is not a guilt trip. It is meeting God in the texture of your life.&rdquo;</p>
+        <div class="saint-attribution" data-en="— Paraphrase of St. Ignatius of Loyola, Spiritual Exercises" data-es="— Paráfrasis de San Ignacio de Loyola, Ejercicios Espirituales">— Paraphrase of St. Ignatius of Loyola, Spiritual Exercises</div>
+      </div>
+    </div>
   </div>
 
   <div class="tab-panel" id="tab-anointing">
@@ -1251,7 +1748,7 @@ function setLang(lang) {
     <div class="content-section"><div class="section-label" data-en="What Is the Anointing of the Sick?" data-es="¿Qué Es la Unción de los Enfermos?">What Is the Anointing of the Sick?</div><p class="body-text" data-en="This sacrament is not reserved for those at the moment of death. It is for any Catholic who is seriously ill, facing major surgery, or weakened by old age. The sacrament unites the suffering of the sick with the Passion of Christ, brings comfort and courage to the soul, forgives sins, and may restore physical health if that is God's will." data-es="Este sacramento no está reservado solo para quienes están a punto de morir. Es para cualquier católico que esté gravemente enfermo, que se enfrente a una cirugía mayor, o que esté debilitado por la vejez. El sacramento une el sufrimiento del enfermo con la Pasión de Cristo, trae consuelo y valentía al alma, perdona los pecados y puede restaurar la salud física si esa es la voluntad de Dios.">This sacrament is not reserved for those at the moment of death. It is for any Catholic who is seriously ill, facing major surgery, or weakened by old age. The sacrament unites the suffering of the sick with the Passion of Christ, brings comfort and courage to the soul, forgives sins, and may restore physical health if that is God's will.</p></div>
     <div class="content-section"><div class="section-label" data-en="Scriptural Foundation" data-es="Fundamento Bíblico">Scriptural Foundation</div><div class="scripture-list"><div class="scripture-card"><div class="scripture-ref" data-en="James 5:14–15" data-es="Santiago 5:14–15">James 5:14–15</div><div class="scripture-text" data-en="&quot;Is anyone among you sick? Let him call for the elders of the church, and let them pray over him, anointing him with oil in the name of the Lord. And the prayer of faith will save the one who is sick.&quot;" data-es="&quot;¿Está enfermo alguno de ustedes? Llame a los presbíteros de la Iglesia, que oren por él y lo unjan con aceite en el nombre del Señor. La oración hecha con fe salvará al enfermo.&quot;">"Is anyone among you sick? Let him call for the elders of the church, and let them pray over him, anointing him with oil in the name of the Lord. And the prayer of faith will save the one who is sick."</div></div></div></div>
     <div class="content-section"><div class="section-label" data-en="From the Catechism" data-es="Del Catecismo">From the Catechism</div><div class="catechism-block"><p class="catechism-quote" data-en="The Church believes and confesses that among the seven sacraments there is one especially intended to strengthen those who are being tried by illness: the Anointing of the Sick." data-es="La Iglesia cree y confiesa que entre los siete sacramentos existe uno especialmente destinado a confortar a los que son probados por la enfermedad: la Unción de los Enfermos.">The Church believes and confesses that among the seven sacraments there is one especially intended to strengthen those who are being tried by illness: the Anointing of the Sick.</p><span class="catechism-ref">CCC 1511</span></div></div>
-    <div class="content-section"><div class="section-label" data-en="The Gifts of This Sacrament" data-es="Los Dones de Este Sacramento">The Gifts of This Sacrament</div><div class="essentials-grid"><div class="essential-card"><span class="essential-icon">💪</span><div class="essential-title" data-en="Strength and Courage" data-es="Fuerza y Valentía">Strength and Courage</div><div class="essential-text" data-en="The Holy Spirit renews trust in God and provides the strength to bear suffering and face death with peace." data-es="El Espíritu Santo renueva la confianza en Dios y da la fuerza para soportar el sufrimiento y enfrentar la muerte con paz.">The Holy Spirit renews trust in God and provides the strength to bear suffering and face death with peace.</div></div><div class="essential-card"><span class="essential-icon">🕊️</span><div class="essential-title" data-en="Union with Christ's Passion" data-es="Unión con la Pasión de Cristo">Union with Christ's Passion</div><div class="essential-text" data-en="The sick person's suffering, united to Christ's own, becomes a sharing in his redemptive work." data-es="El sufrimiento del enfermo, unido al propio de Cristo, se convierte en participación en su obra redentora.">The sick person's suffering, united to Christ's own, becomes a sharing in his redemptive work.</div></div><div class="essential-card"><span class="essential-icon">🙏</span><div class="essential-title" data-en="Forgiveness of Sins" data-es="Perdón de los Pecados">Forgiveness of Sins</div><div class="essential-text" data-en="If the sick person cannot receive Reconciliation, this sacrament forgives sins and removes their remnants." data-es="Si el enfermo no puede recibir la Reconciliación, este sacramento perdona los pecados y elimina sus restos.">If the sick person cannot receive Reconciliation, this sacrament forgives sins and removes their remnants.</div></div><div class="essential-card"><span class="essential-icon">🏥</span><div class="essential-title" data-en="Healing" data-es="Sanación">Healing</div><div class="essential-text" data-en="Sometimes God restores bodily health through this sacrament, if such is conducive to the salvation of the soul." data-es="A veces Dios restaura la salud corporal por este sacramento, si eso es conveniente para la salvación del alma.">Sometimes God restores bodily health through this sacrament, if such is conducive to the salvation of the soul.</div></div><div class="essential-card"><span class="essential-icon">👨‍👩‍👧</span><div class="essential-title" data-en="Who Can Receive It?" data-es="¿Quién Puede Recibirlo?">Who Can Receive It?</div><div class="essential-text" data-en="Any Catholic in danger of death from illness or old age. It may be received multiple times." data-es="Cualquier católico en peligro de muerte por enfermedad o vejez. Puede recibirse múltiples veces.">Any Catholic in danger of death from illness or old age. It may be received multiple times.</div></div><div class="essential-card"><span class="essential-icon">👨‍🍳</span><div class="essential-title" data-en="Who Administers It?" data-es="¿Quién Lo Administra?">Who Administers It?</div><div class="essential-text" data-en="Only a validly ordained priest can administer the Anointing of the Sick." data-es="Solo un sacerdote válidamente ordenado puede administrar la Unción de los Enfermos.">Only a validly ordained priest can administer the Anointing of the Sick.</div></div></div></div>
+    <div class="content-section"><div class="section-label" data-en="The Gifts of This Sacrament" data-es="Los Dones de Este Sacramento">The Gifts of This Sacrament</div><div class="essentials-grid"><div class="essential-card"><span class="essential-icon">💪</span><div class="essential-title" data-en="Strength and Courage" data-es="Fuerza y Valentía">Strength and Courage</div><div class="essential-text" data-en="The Holy Spirit renews trust in God and provides the strength to bear suffering and face death with peace." data-es="El Espíritu Santo renueva la confianza en Dios y da la fuerza para soportar el sufrimiento y enfrentar la muerte con paz.">The Holy Spirit renews trust in God and provides the strength to bear suffering and face death with peace.</div></div><div class="essential-card"><span class="essential-icon">🕊️</span><div class="essential-title" data-en="Union with Christ's Passion" data-es="Unión con la Pasión de Cristo">Union with Christ's Passion</div><div class="essential-text" data-en="The sick person's suffering, united to Christ's own, becomes a sharing in his redemptive work." data-es="El sufrimiento del enfermo, unido al propio de Cristo, se convierte en participación en su obra redentora.">The sick person's suffering, united to Christ's own, becomes a sharing in his redemptive work.</div></div><div class="essential-card"><span class="essential-icon">🙏</span><div class="essential-title" data-en="Forgiveness of Sins" data-es="Perdón de los Pecados">Forgiveness of Sins</div><div class="essential-text" data-en="If the sick person cannot receive Reconciliation, this sacrament forgives sins and removes their remnants." data-es="Si el enfermo no puede recibir la Reconciliación, este sacramento perdona los pecados y elimina sus restos.">If the sick person cannot receive Reconciliation, this sacrament forgives sins and removes their remnants.</div></div><div class="essential-card"><span class="essential-icon">🏥</span><div class="essential-title" data-en="Healing" data-es="Sanación">Healing</div><div class="essential-text" data-en="Sometimes God restores bodily health through this sacrament, if such is conducive to the salvation of the soul." data-es="A veces Dios restaura la salud corporal por este sacramento, si eso es conveniente para la salvación del alma.">Sometimes God restores bodily health through this sacrament, if such is conducive to the salvation of the soul.</div></div><div class="essential-card"><span class="essential-icon">👨‍👩‍👧</span><div class="essential-title" data-en="Who Can Receive It?" data-es="¿Quién Puede Recibirlo?">Who Can Receive It?</div><div class="essential-text" data-en="Any Catholic in danger of death from illness or old age. It may be received multiple times. When given to the dying alongside Reconciliation and the Eucharist (Viaticum), these three together are called the Last Sacraments — the Church's loving provision for the journey to eternal life." data-es="Cualquier católico en peligro de muerte por enfermedad o vejez. Puede recibirse múltiples veces.">Any Catholic in danger of death from illness or old age. It may be received multiple times.</div></div><div class="essential-card"><span class="essential-icon">👨‍🍳</span><div class="essential-title" data-en="Who Administers It?" data-es="¿Quién Lo Administra?">Who Administers It?</div><div class="essential-text" data-en="Only a validly ordained priest can administer the Anointing of the Sick." data-es="Solo un sacerdote válidamente ordenado puede administrar la Unción de los Enfermos.">Only a validly ordained priest can administer the Anointing of the Sick.</div></div></div></div>
   </div>
 
   <div class="tab-panel" id="tab-holyorders">
@@ -1260,7 +1757,7 @@ function setLang(lang) {
     <div class="content-section"><div class="section-label" data-en="Scriptural Foundation" data-es="Fundamento Bíblico">Scriptural Foundation</div><div class="scripture-list"><div class="scripture-card"><div class="scripture-ref" data-en="John 20:21–23" data-es="Juan 20:21–23">John 20:21–23</div><div class="scripture-text" data-en="&quot;Jesus said to them again, "Peace be with you. As the Father has sent me, even so I am sending you." And when he had said this, he breathed on them and said, "Receive the Holy Spirit."&quot;" data-es="&quot;Jesús les dijo de nuevo: "La paz con ustedes. Como el Padre me envió, así también yo los envío." Dicho esto, sopló sobre ellos y les dijo: "Reciban el Espíritu Santo."&quot;">"Jesus said to them again, "Peace be with you. As the Father has sent me, even so I am sending you." And when he had said this, he breathed on them and said, "Receive the Holy Spirit.""</div></div><div class="scripture-card"><div class="scripture-ref" data-en="Luke 22:19" data-es="Lucas 22:19">Luke 22:19</div><div class="scripture-text" data-en="&quot;And he took bread, and when he had given thanks, he broke it and gave it to them, saying, "This is my body, which is given for you. Do this in remembrance of me."&quot;" data-es="&quot;Y tomando el pan, después de dar gracias, lo partió y se lo dio diciendo: "Este es mi cuerpo, que se entrega por ustedes; hagan esto en memoria mía."&quot;">"And he took bread, and when he had given thanks, he broke it and gave it to them, saying, "This is my body, which is given for you. Do this in remembrance of me.""</div></div></div></div>
     <div class="content-section"><div class="section-label" data-en="From the Catechism" data-es="Del Catecismo">From the Catechism</div><div class="catechism-block"><p class="catechism-quote" data-en="Holy Orders is the sacrament through which the mission entrusted by Christ to his apostles continues to be exercised in the Church until the end of time: thus it is the sacrament of apostolic ministry. It includes three degrees: episcopate, presbyterate, and diaconate." data-es="El Orden Sagrado es el sacramento gracias al cual la misión confiada por Cristo a sus apóstoles sigue siendo ejercida en la Iglesia hasta el fin de los tiempos: es, pues, el sacramento del ministerio apostólico. Comprende tres grados: el episcopado, el presbiterado y el diaconado.">Holy Orders is the sacrament through which the mission entrusted by Christ to his apostles continues to be exercised in the Church until the end of time: thus it is the sacrament of apostolic ministry. It includes three degrees: episcopate, presbyterate, and diaconate.</p><span class="catechism-ref">CCC 1536</span></div></div>
     <div class="content-section"><div class="section-label" data-en="Wisdom of the Saints" data-es="Sabiduría de los Santos">Wisdom of the Saints</div><div class="saint-block"><p class="saint-quote" data-en="&quot;The priesthood is the love of the heart of Jesus. When you see a priest, think of our Lord Jesus Christ.&quot;" data-es="&quot;El sacerdocio es el amor del corazón de Jesús. Cuando ves a un sacerdote, piensa en nuestro Señor Jesucristo.&quot;">"The priesthood is the love of the heart of Jesus. When you see a priest, think of our Lord Jesus Christ."</p><div class="saint-attribution" data-en="— St. John Vianney / San Juan María Vianney" data-es="— San Juan María Vianney">— St. John Vianney / San Juan María Vianney</div></div></div>
-    <div class="content-section"><div class="section-label" data-en="The Three Degrees of Holy Orders" data-es="Los Tres Grados del Orden Sagrado">The Three Degrees of Holy Orders</div><div class="essentials-grid"><div class="essential-card"><span class="essential-icon">👑</span><div class="essential-title" data-en="The Episcopate (Bishops)" data-es="El Episcopado (Obispos)">The Episcopate (Bishops)</div><div class="essential-text" data-en="The fullness of the sacrament of Holy Orders. Bishops are successors of the Apostles, responsible for teaching, sanctifying, and governing a diocese." data-es="La plenitud del sacramento del Orden. Los obispos son sucesores de los Apóstoles, responsables de enseñar, santificar y gobernar una diócesis.">The fullness of the sacrament of Holy Orders. Bishops are successors of the Apostles, responsible for teaching, sanctifying, and governing a diocese.</div></div><div class="essential-card"><span class="essential-icon">✝️</span><div class="essential-title" data-en="The Presbyterate (Priests)" data-es="El Presbiterado (Sacerdotes)">The Presbyterate (Priests)</div><div class="essential-text" data-en="Priests act in the person of Christ the Head. They celebrate the Eucharist, forgive sins, anoint the sick, preach, and shepherd their parishes." data-es="Los sacerdotes actúan en la persona de Cristo Cabeza. Celebran la Eucaristía, perdonan pecados, ungen a los enfermos, predican y apacientan sus parroquias.">Priests act in the person of Christ the Head. They celebrate the Eucharist, forgive sins, anoint the sick, preach, and shepherd their parishes.</div></div><div class="essential-card"><span class="essential-icon">🤲</span><div class="essential-title" data-en="The Diaconate (Deacons)" data-es="El Diaconado (Diáconos)">The Diaconate (Deacons)</div><div class="essential-text" data-en="Deacons are ordained for service: assisting at the Eucharist, baptizing, witnessing marriages, and serving the poor. Permanent deacons may be married." data-es="Los diáconos son ordenados para el servicio: asistir en la Eucaristía, bautizar, asistir a matrimonios y servir a los pobres. Los diáconos permanentes pueden ser casados.">Deacons are ordained for service: assisting at the Eucharist, baptizing, witnessing marriages, and serving the poor. Permanent deacons may be married.</div></div><div class="essential-card"><span class="essential-icon">🔏</span><div class="essential-title" data-en="Indelible Character" data-es="Carácter Indeleble">Indelible Character</div><div class="essential-text" data-en="Like Baptism and Confirmation, Holy Orders imprints an indelible mark. A priest is a priest forever." data-es="Como el Bautismo y la Confirmación, el Orden Sagrado imprime una marca indeleble. Un sacerdote lo es para siempre.">Like Baptism and Confirmation, Holy Orders imprints an indelible mark. A priest is a priest forever.</div></div><div class="essential-card"><span class="essential-icon">👨</span><div class="essential-title" data-en="Male Ordinands Only" data-es="Solo Hombres">Male Ordinands Only</div><div class="essential-text" data-en="The Church teaches that, following Christ's example, only baptized men can validly receive Holy Orders (CCC 1577)." data-es="La Iglesia enseña que, siguiendo el ejemplo de Cristo, solo los hombres bautizados pueden recibir válidamente el Orden Sagrado (CIC 1577).">The Church teaches that, following Christ's example, only baptized men can validly receive Holy Orders (CCC 1577).</div></div><div class="essential-card"><span class="essential-icon">🙌</span><div class="essential-title" data-en="Apostolic Succession" data-es="Sucesión Apostólica">Apostolic Succession</div><div class="essential-text" data-en="Every validly ordained bishop can trace his ordination in an unbroken line back to the Apostles." data-es="Todo obispo válidamente ordenado puede trazar su ordenación en una línea ininterrumpida hasta los Apóstoles.">Every validly ordained bishop can trace his ordination in an unbroken line back to the Apostles.</div></div></div></div>
+    <div class="content-section"><div class="section-label" data-en="The Three Degrees of Holy Orders" data-es="Los Tres Grados del Orden Sagrado">The Three Degrees of Holy Orders</div><div class="essentials-grid"><div class="essential-card"><span class="essential-icon">👑</span><div class="essential-title" data-en="The Episcopate (Bishops)" data-es="El Episcopado (Obispos)">The Episcopate (Bishops)</div><div class="essential-text" data-en="The fullness of the sacrament of Holy Orders. Bishops are successors of the Apostles, responsible for teaching, sanctifying, and governing a diocese." data-es="La plenitud del sacramento del Orden. Los obispos son sucesores de los Apóstoles, responsables de enseñar, santificar y gobernar una diócesis.">The fullness of the sacrament of Holy Orders. Bishops are successors of the Apostles, responsible for teaching, sanctifying, and governing a diocese.</div></div><div class="essential-card"><span class="essential-icon">✝️</span><div class="essential-title" data-en="The Presbyterate (Priests)" data-es="El Presbiterado (Sacerdotes)">The Presbyterate (Priests)</div><div class="essential-text" data-en="Priests act in the person of Christ the Head. They celebrate the Eucharist, forgive sins, anoint the sick, preach, and shepherd their parishes." data-es="Los sacerdotes actúan en la persona de Cristo Cabeza. Celebran la Eucaristía, perdonan pecados, ungen a los enfermos, predican y apacientan sus parroquias.">Priests act in the person of Christ the Head. They celebrate the Eucharist, forgive sins, anoint the sick, preach, and shepherd their parishes.</div></div><div class="essential-card"><span class="essential-icon">🤲</span><div class="essential-title" data-en="The Diaconate (Deacons)" data-es="El Diaconado (Diáconos)">The Diaconate (Deacons)</div><div class="essential-text" data-en="Deacons are ordained for service: assisting at the Eucharist, baptizing, witnessing marriages, and serving the poor. Permanent deacons may be married." data-es="Los diáconos son ordenados para el servicio: asistir en la Eucaristía, bautizar, asistir a matrimonios y servir a los pobres. Los diáconos permanentes pueden ser casados.">Deacons are ordained for service: assisting at the Eucharist, baptizing, witnessing marriages, and serving the poor. Permanent deacons may be married.</div></div><div class="essential-card"><span class="essential-icon">🔏</span><div class="essential-title" data-en="Indelible Character" data-es="Carácter Indeleble">Indelible Character</div><div class="essential-text" data-en="Like Baptism and Confirmation, Holy Orders imprints an indelible mark. A priest is a priest forever." data-es="Como el Bautismo y la Confirmación, el Orden Sagrado imprime una marca indeleble. Un sacerdote lo es para siempre.">Like Baptism and Confirmation, Holy Orders imprints an indelible mark. A priest is a priest forever.</div></div><div class="essential-card"><span class="essential-icon">👨</span><div class="essential-title" data-en="Male Ordinands Only" data-es="Solo Hombres">Male Ordinands Only</div><div class="essential-text" data-en="The Church teaches that, in fidelity to Christ's example and the unbroken apostolic tradition, only baptized men can validly receive Holy Orders (CCC 1577). The Church understands this not as a restriction but as part of the nature of the sacrament itself, given by Christ." data-es="La Iglesia enseña que, en fidelidad al ejemplo de Cristo y a la tradición apostólica ininterrumpida, solo los hombres bautizados pueden recibir válidamente el Orden Sagrado (CIC 1577). La Iglesia entiende esto no como una restricción sino como parte de la naturaleza del sacramento mismo, dado por Cristo.">The Church teaches that, following Christ's example, only baptized men can validly receive Holy Orders (CCC 1577).</div></div><div class="essential-card"><span class="essential-icon">🙌</span><div class="essential-title" data-en="Apostolic Succession" data-es="Sucesión Apostólica">Apostolic Succession</div><div class="essential-text" data-en="Every validly ordained bishop can trace his ordination in an unbroken line back to the Apostles." data-es="Todo obispo válidamente ordenado puede trazar su ordenación en una línea ininterrumpida hasta los Apóstoles.">Every validly ordained bishop can trace his ordination in an unbroken line back to the Apostles.</div></div></div></div>
   </div>
 
   <div class="tab-panel" id="tab-matrimony">
@@ -1268,7 +1765,7 @@ function setLang(lang) {
     <div class="content-section"><div class="section-label" data-en="What Is Christian Marriage?" data-es="¿Qué Es el Matrimonio Cristiano?">What Is Christian Marriage?</div><p class="body-text" data-en="The matrimonial covenant, by which a man and a woman establish between themselves a partnership of the whole of life, is by its nature ordered toward the good of the spouses and the procreation and education of children. Christ raised this natural institution to the dignity of a sacrament. In the Latin Church, the spouses themselves are the ministers of the sacrament — they confer it upon each other by exchanging vows." data-es="La alianza matrimonial, por la que el varón y la mujer constituyen entre sí un consorcio de toda la vida, ordenado por su misma índole natural al bien de los cónyuges y a la generación y educación de la prole, fue elevada por Cristo Nuestro Señor a la dignidad de sacramento. En la Iglesia latina, los propios esposos son ministros del sacramento — se lo confieren mutuamente al intercambiar sus votos.">The matrimonial covenant, by which a man and a woman establish between themselves a partnership of the whole of life, is by its nature ordered toward the good of the spouses and the procreation and education of children. Christ raised this natural institution to the dignity of a sacrament. In the Latin Church, the spouses themselves are the ministers of the sacrament — they confer it upon each other by exchanging vows.</p></div>
     <div class="content-section"><div class="section-label" data-en="Scriptural Foundation" data-es="Fundamento Bíblico">Scriptural Foundation</div><div class="scripture-list"><div class="scripture-card"><div class="scripture-ref" data-en="Genesis 2:24" data-es="Génesis 2:24">Genesis 2:24</div><div class="scripture-text" data-en="&quot;Therefore a man shall leave his father and his mother and hold fast to his wife, and they shall become one flesh.&quot;" data-es="&quot;Por eso el hombre deja a su padre y a su madre, y se une a su mujer, y los dos se hacen una sola carne.&quot;">"Therefore a man shall leave his father and his mother and hold fast to his wife, and they shall become one flesh."</div></div><div class="scripture-card"><div class="scripture-ref" data-en="Matthew 19:6" data-es="Mateo 19:6">Matthew 19:6</div><div class="scripture-text" data-en="&quot;So they are no longer two but one flesh. What therefore God has joined together, let not man separate.&quot;" data-es="&quot;De modo que ya no son dos, sino una sola carne. Por tanto, lo que Dios ha unido, que no lo separe el hombre.&quot;">"So they are no longer two but one flesh. What therefore God has joined together, let not man separate."</div></div><div class="scripture-card"><div class="scripture-ref" data-en="Ephesians 5:31–32" data-es="Efesios 5:31–32">Ephesians 5:31–32</div><div class="scripture-text" data-en="&quot;"Therefore a man shall leave his father and mother and hold fast to his wife, and the two shall become one flesh." This mystery is profound, and I am saying that it refers to Christ and the church.&quot;" data-es="&quot;«Por eso dejará el hombre a su padre y a su madre, y se unirá a su mujer, y los dos formarán una sola carne.» Grande es este misterio; lo refiero a Cristo y a la Iglesia.&quot;">""Therefore a man shall leave his father and mother and hold fast to his wife, and the two shall become one flesh." This mystery is profound, and I am saying that it refers to Christ and the church."</div></div></div></div>
     <div class="content-section"><div class="section-label" data-en="From the Catechism" data-es="Del Catecismo">From the Catechism</div><div class="catechism-block"><p class="catechism-quote" data-en="The matrimonial covenant, by which a man and a woman establish between themselves a partnership of the whole of life, is by its nature ordered toward the good of the spouses and the procreation and education of offspring; this covenant between baptized persons has been raised by Christ the Lord to the dignity of a sacrament." data-es="La alianza matrimonial, por la que el varón y la mujer constituyen entre sí un consorcio de toda la vida, ordenado por su misma índole natural al bien de los cónyuges y a la generación y educación de la prole, fue elevada por Cristo Nuestro Señor a la dignidad de sacramento entre bautizados.">The matrimonial covenant, by which a man and a woman establish between themselves a partnership of the whole of life, is by its nature ordered toward the good of the spouses and the procreation and education of offspring; this covenant between baptized persons has been raised by Christ the Lord to the dignity of a sacrament.</p><span class="catechism-ref">CCC 1601</span></div></div>
-    <div class="content-section"><div class="section-label" data-en="The Properties of Christian Marriage" data-es="Las Propiedades del Matrimonio Cristiano">The Properties of Christian Marriage</div><div class="essentials-grid"><div class="essential-card"><span class="essential-icon">💑</span><div class="essential-title" data-en="Unity" data-es="Unidad">Unity</div><div class="essential-text" data-en="Marriage is between one man and one woman — a communion of persons reflecting the unity of Christ with the Church." data-es="El matrimonio es entre un hombre y una mujer — una comunión de personas que refleja la unidad de Cristo con la Iglesia.">Marriage is between one man and one woman — a communion of persons reflecting the unity of Christ with the Church.</div></div><div class="essential-card"><span class="essential-icon">♾️</span><div class="essential-title" data-en="Indissolubility" data-es="Indisolubilidad">Indissolubility</div><div class="essential-text" data-en="What God has joined, no human authority can put asunder. A valid, consummated sacramental marriage cannot be dissolved." data-es="Lo que Dios ha unido, ninguna autoridad humana puede separarlo. Un matrimonio sacramental válido y consumado no puede disolverse.">What God has joined, no human authority can put asunder. A valid, consummated sacramental marriage cannot be dissolved.</div></div><div class="essential-card"><span class="essential-icon">👶</span><div class="essential-title" data-en="Openness to Life" data-es="Apertura a la Vida">Openness to Life</div><div class="essential-text" data-en="Spouses are called to be co-creators with God. The deliberate exclusion of children is contrary to the nature of the marriage covenant." data-es="Los esposos están llamados a ser co-creadores con Dios. La exclusión deliberada de los hijos es contraria a la naturaleza del pacto matrimonial.">Spouses are called to be co-creators with God. The deliberate exclusion of children is contrary to the nature of the marriage covenant.</div></div><div class="essential-card"><span class="essential-icon">🤝</span><div class="essential-title" data-en="Mutual Consent" data-es="Consentimiento Mutuo">Mutual Consent</div><div class="essential-text" data-en="Free, full, faithful, and fruitful consent makes the marriage. Force or grave fear invalidates consent." data-es="El consentimiento libre, pleno, fiel y fecundo hace el matrimonio. La fuerza o el miedo grave invalidan el consentimiento.">Free, full, faithful, and fruitful consent makes the marriage. Force or grave fear invalidates consent.</div></div><div class="essential-card"><span class="essential-icon">📿</span><div class="essential-title" data-en="Domestic Church" data-es="Iglesia Doméstica">Domestic Church</div><div class="essential-text" data-en="The Christian family is called the "domestic church" — the first place where children learn faith, prayer, and love." data-es="La familia cristiana es llamada la "iglesia doméstica" — el primer lugar donde los hijos aprenden la fe, la oración y el amor.">The Christian family is called the "domestic church" — the first place where children learn faith, prayer, and love.</div></div><div class="essential-card"><span class="essential-icon">🙏</span><div class="essential-title" data-en="Grace for the Journey" data-es="Gracia para el Camino">Grace for the Journey</div><div class="essential-text" data-en="The sacrament gives spouses a special grace to love as Christ loves — sacrificially and with supernatural charity." data-es="El sacramento da a los esposos una gracia especial para amar como ama Cristo — sacrificialmente y con caridad sobrenatural.">The sacrament gives spouses a special grace to love as Christ loves — sacrificially and with supernatural charity.</div></div></div></div>
+    <div class="content-section"><div class="section-label" data-en="The Properties of Christian Marriage" data-es="Las Propiedades del Matrimonio Cristiano">The Properties of Christian Marriage</div><div class="essentials-grid"><div class="essential-card"><span class="essential-icon">💑</span><div class="essential-title" data-en="Unity" data-es="Unidad">Unity</div><div class="essential-text" data-en="Marriage is between one man and one woman — a communion of persons reflecting the unity of Christ with the Church." data-es="El matrimonio es entre un hombre y una mujer — una comunión de personas que refleja la unidad de Cristo con la Iglesia.">Marriage is between one man and one woman — a communion of persons reflecting the unity of Christ with the Church.</div></div><div class="essential-card"><span class="essential-icon">♾️</span><div class="essential-title" data-en="Indissolubility" data-es="Indisolubilidad">Indissolubility</div><div class="essential-text" data-en="What God has joined, no human authority can put asunder. A valid, consummated sacramental marriage cannot be dissolved. A declaration of nullity (annulment) is not divorce — it is a determination that a true sacramental marriage never existed due to a defect at the time of consent." data-es="Lo que Dios ha unido, ninguna autoridad humana puede separarlo. Un matrimonio sacramental válido y consumado no puede disolverse. Una declaración de nulidad (anulación) no es un divorcio — es la determinación de que no existió un verdadero matrimonio sacramental por un defecto en el momento del consentimiento.">What God has joined, no human authority can put asunder. A valid, consummated sacramental marriage cannot be dissolved.</div></div><div class="essential-card"><span class="essential-icon">👶</span><div class="essential-title" data-en="Openness to Life" data-es="Apertura a la Vida">Openness to Life</div><div class="essential-text" data-en="Spouses are called to be co-creators with God. The deliberate exclusion of children is contrary to the nature of the marriage covenant." data-es="Los esposos están llamados a ser co-creadores con Dios. La exclusión deliberada de los hijos es contraria a la naturaleza del pacto matrimonial.">Spouses are called to be co-creators with God. The deliberate exclusion of children is contrary to the nature of the marriage covenant.</div></div><div class="essential-card"><span class="essential-icon">🤝</span><div class="essential-title" data-en="Mutual Consent" data-es="Consentimiento Mutuo">Mutual Consent</div><div class="essential-text" data-en="Free, full, faithful, and fruitful consent makes the marriage. Force or grave fear invalidates consent." data-es="El consentimiento libre, pleno, fiel y fecundo hace el matrimonio. La fuerza o el miedo grave invalidan el consentimiento.">Free, full, faithful, and fruitful consent makes the marriage. Force or grave fear invalidates consent.</div></div><div class="essential-card"><span class="essential-icon">📿</span><div class="essential-title" data-en="Domestic Church" data-es="Iglesia Doméstica">Domestic Church</div><div class="essential-text" data-en="The Christian family is called the "domestic church" — the first place where children learn faith, prayer, and love." data-es="La familia cristiana es llamada la "iglesia doméstica" — el primer lugar donde los hijos aprenden la fe, la oración y el amor.">The Christian family is called the "domestic church" — the first place where children learn faith, prayer, and love.</div></div><div class="essential-card"><span class="essential-icon">🙏</span><div class="essential-title" data-en="Grace for the Journey" data-es="Gracia para el Camino">Grace for the Journey</div><div class="essential-text" data-en="The sacrament gives spouses a special grace to love as Christ loves — sacrificially and with supernatural charity." data-es="El sacramento da a los esposos una gracia especial para amar como ama Cristo — sacrificialmente y con caridad sobrenatural.">The sacrament gives spouses a special grace to love as Christ loves — sacrificially and with supernatural charity.</div></div></div></div>
   </div>
 
   <div class="tab-panel" id="tab-scripture">
@@ -1425,6 +1922,53 @@ Amen.</div>
   </div>
 
   <div class="tab-panel" id="tab-rosary">
+
+    <!-- ── INTERACTIVE PRAYER GUIDE ── -->
+    <div id="prayer-guide" style="display:none;">
+
+      <!-- Header: title + close -->
+      <div class="prayer-guide-header" style="padding:0.85rem 1.1rem;display:flex;align-items:center;justify-content:space-between;background:var(--habit);color:var(--cord-light);">
+        <div>
+          <div style="font-family:'Cinzel',serif;font-size:0.65rem;letter-spacing:0.18em;text-transform:uppercase;color:rgba(222,196,154,0.7);margin-bottom:0.2rem;" data-en="Now Praying" data-es="Rezando Ahora">Now Praying</div>
+          <div style="font-family:'Cinzel',serif;font-size:0.95rem;letter-spacing:0.06em;color:var(--cord-light);" id="guide-label">The Holy Rosary</div>
+          <div id="guide-mystery-selector" style="display:none;margin-top:0.4rem;">
+            <select class="mystery-select" id="mystery-select" onchange="rebuildRosarySteps()" style="font-family:'Cinzel',serif;font-size:0.65rem;padding:0.25rem 0.5rem;border-radius:4px;border:1px solid rgba(222,196,154,0.4);background:rgba(0,0,0,0.25);color:var(--cord-light);letter-spacing:0.05em;">
+              <option value="joyful"    data-en="Joyful Mysteries (Mon, Sat)"   data-es="Misterios Gozosos (Lun, Sáb)">Joyful Mysteries (Mon, Sat)</option>
+              <option value="luminous"  data-en="Luminous Mysteries (Thu)"      data-es="Misterios Luminosos (Jue)">Luminous Mysteries (Thu)</option>
+              <option value="sorrowful" data-en="Sorrowful Mysteries (Tue, Fri)" data-es="Misterios Dolorosos (Mar, Vie)">Sorrowful Mysteries (Tue, Fri)</option>
+              <option value="glorious"  data-en="Glorious Mysteries (Wed, Sun)" data-es="Misterios Gloriosos (Mié, Dom)">Glorious Mysteries (Wed, Sun)</option>
+            </select>
+          </div>
+        </div>
+        <button class="guide-close" onclick="closePrayer()" style="background:rgba(255,255,255,0.12);color:var(--cord-light);border:1px solid rgba(222,196,154,0.3);">✕ Close</button>
+      </div>
+
+      <!-- Progress bar -->
+      <div class="guide-progress-bar"><div class="guide-progress-fill" id="guide-progress-fill"></div></div>
+
+      <!-- Step pills scrolling horizontally at top -->
+      <div class="guide-steps-section">
+        <div class="guide-steps-label" data-en="Steps — tap to jump" data-es="Pasos — toca para saltar">Steps — tap to jump</div>
+        <div class="guide-steps" id="guide-steps"></div>
+      </div>
+
+      <!-- Current step panel -->
+      <div class="guide-panel" id="guide-panel">
+        <div class="guide-panel-title" id="panel-title"></div>
+        <div class="guide-panel-body" id="panel-body"></div>
+        <div id="panel-note-wrap" style="display:none;margin-top:0.85rem;">
+          <div class="guide-panel-note" id="panel-note"></div>
+        </div>
+      </div>
+
+      <!-- Sticky bottom nav -->
+      <div class="guide-nav">
+        <button class="guide-nav-btn" id="guide-prev" onclick="navigateStep(-1)" data-en="← Previous" data-es="← Anterior">← Previous</button>
+        <span class="guide-step-counter" id="step-counter"></span>
+        <button class="guide-nav-btn guide-nav-btn--next" id="guide-next" onclick="navigateStep(1)" data-en="Next →" data-es="Siguiente →">Next →</button>
+      </div>
+
+    </div>
     <div class="sacrament-hero">
       <span class="sacrament-icon">📿</span>
       <h2 data-en="Rosary &amp; Chaplets" data-es="Rosario y Coronillas">Rosary &amp; Chaplets</h2>
@@ -1468,35 +2012,6 @@ Amen.</div>
       </div>
     </div>
 
-    <!-- ── INTERACTIVE PRAYER GUIDE ── -->
-    <div class="content-section" id="prayer-guide" style="display:none;">
-      <div class="prayer-guide-header">
-        <div>
-          <div class="section-label" id="guide-label" data-en="The Holy Rosary" data-es="El Santo Rosario">The Holy Rosary</div>
-          <div id="guide-mystery-selector" style="display:none; margin-bottom:0.75rem;">
-            <label class="mystery-label" data-en="Select Mysteries:" data-es="Selecciona los Misterios:">Select Mysteries:</label>
-            <select class="mystery-select" id="mystery-select" onchange="rebuildRosarySteps()">
-              <option value="joyful"   data-en="Joyful (Mon, Sat)"      data-es="Gozosos (Lun, Sáb)">Joyful (Mon, Sat)</option>
-              <option value="luminous" data-en="Luminous (Thu)"         data-es="Luminosos (Jue)">Luminous (Thu)</option>
-              <option value="sorrowful" data-en="Sorrowful (Tue, Fri)"  data-es="Dolorosos (Mar, Vie)">Sorrowful (Tue, Fri)</option>
-              <option value="glorious" data-en="Glorious (Wed, Sun)"    data-es="Gloriosos (Mié, Dom)">Glorious (Wed, Sun)</option>
-            </select>
-          </div>
-        </div>
-        <button class="guide-close" onclick="closePrayer()">✕ Close</button>
-      </div>
-      <div class="guide-progress-bar"><div class="guide-progress-fill" id="guide-progress-fill"></div></div>
-      <div class="guide-layout">
-        <div class="guide-steps" id="guide-steps"></div>
-        <div class="guide-panel" id="guide-panel">
-          <div class="guide-panel-title" id="panel-title"></div>
-          <div class="guide-panel-body" id="panel-body"></div>
-          <div class="guide-nav">
-            <span class="guide-step-counter" id="step-counter"></span>
-          </div>
-        </div>
-      </div>
-    </div>
 
     <!-- ── HOW-TO ACCORDIONS ── -->
     <div class="content-section">
@@ -1598,7 +2113,8 @@ Amen.</div>
     </div>
     <div class="content-section">
       <div class="section-label" data-en="St. Francis of Assisi — Patron of Our Parish Family" data-es="San Francisco de Asís — Patrono de Nuestra Familia Parroquial">St. Francis of Assisi — Patron of Our Parish Family</div>
-            <div class="saint-block"><p class="saint-quote" data-en="&quot;Begin by doing what is necessary; then do what is possible; and suddenly you are doing the impossible. Lord, make me an instrument of your peace: where there is hatred, let me sow love; where there is injury, pardon; where there is doubt, faith; where there is despair, hope; where there is darkness, light; where there is sadness, joy.&quot;" data-es="&quot;Empieza por hacer lo que es necesario, después lo que es posible, y de repente estarás haciendo lo imposible.&quot;">"Begin by doing what is necessary; then do what is possible; and suddenly you are doing the impossible. Lord, make me an instrument of your peace: where there is hatred, let me sow love; where there is injury, pardon; where there is doubt, faith; where there is despair, hope; where there is darkness, light; where there is sadness, joy."</p><div class="saint-attribution" data-en="— St. Francis of Assisi (1182–1226), Founder of the Franciscan Order" data-es="— San Francisco de Asís (1182–1226), Fundador de la Orden Franciscana">— St. Francis of Assisi (1182–1226), Founder of the Franciscan Order</div></div>
+            <div class="saint-block"><p class="saint-quote" data-en="&ldquo;Begin by doing what is necessary; then do what is possible; and suddenly you are doing the impossible.&rdquo;" data-es="&ldquo;Empieza por hacer lo que es necesario, después lo que es posible, y de repente estarás haciendo lo imposible.&rdquo;">&ldquo;Begin by doing what is necessary; then do what is possible; and suddenly you are doing the impossible.&rdquo;</p>
+            <p class="saint-quote" style="margin-top:0.75rem;font-size:0.95rem;" data-en="&ldquo;Lord, make me an instrument of your peace: where there is hatred, let me sow love; where there is injury, pardon; where there is doubt, faith; where there is despair, hope; where there is darkness, light; where there is sadness, joy.&rdquo;" data-es="&ldquo;Señor, hazme un instrumento de tu paz: donde haya odio, que yo siembre amor; donde haya ofensa, perdón; donde haya duda, fe; donde haya desesperación, esperanza; donde haya tinieblas, luz; donde haya tristeza, alegría.&rdquo;">&ldquo;Lord, make me an instrument of your peace: where there is hatred, let me sow love; where there is injury, pardon; where there is doubt, faith; where there is despair, hope; where there is darkness, light; where there is sadness, joy.&rdquo;</p><div class="saint-attribution" data-en="— St. Francis of Assisi (1182–1226), Founder of the Franciscan Order" data-es="— San Francisco de Asís (1182–1226), Fundador de la Orden Franciscana">— St. Francis of Assisi (1182–1226), Founder of the Franciscan Order</div></div>
     </div>
     <div class="content-section">
       <div class="section-label" data-en="Patron Saints for OCIA Candidates" data-es="Santos Patronos para Candidatos del OCIA">Patron Saints for OCIA Candidates</div>
@@ -1613,7 +2129,7 @@ Amen.</div>
     </div>
     <div class="content-section">
       <div class="section-label" data-en="A Prayer to Your Patron Saint" data-es="Una Oración a Tu Santo Patrón">A Prayer to Your Patron Saint</div>
-            <div class="catechism-block"><p class="catechism-quote" data-en="O [Name of Saint], through your life of faith, sacrifice, and love, you followed Christ with courage and joy. I ask for your intercession and the grace to imitate your virtues. Pray for me before the throne of God, that I may persevere in faith, receive the sacraments with an open heart, and one day join you in eternal life. Amen." data-es="Oh [Nombre del Santo/a], a través de tu vida de fe, sacrificio y amor, nos muestras el camino a la santidad. Intercede por mí mientras me preparo para recibir los Sacramentos de Iniciación. Amén.">O [Name of Saint], through your life of faith, sacrifice, and love, you followed Christ with courage and joy. I ask for your intercession and the grace to imitate your virtues. Pray for me before the throne of God, that I may persevere in faith, receive the sacraments with an open heart, and one day join you in eternal life. Amen.</p><span class="catechism-ref">Traditional Patron Saint Prayer</span></div>
+            <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.05rem;line-height:1.8;color:var(--text-main);background:rgba(107,58,42,0.04);border-radius:8px;padding:1rem 1.25rem;border-left:3px solid var(--cord);" data-en="O [Name of Saint], through your life of faith, sacrifice, and love, you followed Christ with courage and joy. I ask for your intercession and the grace to imitate your virtues. Pray for me before the throne of God, that I may persevere in faith, receive the sacraments with an open heart, and one day join you in the joy of heaven. Amen." data-es="Oh [Nombre del Santo/a], a través de tu vida de fe, sacrificio y amor, seguiste a Cristo con valentía y alegría. Te pido tu intercesión y la gracia de imitar tus virtudes. Ruega por mí ante el trono de Dios, para que persevere en la fe, reciba los sacramentos con corazón abierto y un día me una a ti en la alegría del cielo. Amén.">O [Name of Saint], through your life of faith, sacrifice, and love, you followed Christ with courage and joy. I ask for your intercession and the grace to imitate your virtues. Pray for me before the throne of God, that I may persevere in faith, receive the sacraments with an open heart, and one day join you in the joy of heaven. Amen.</p>
     </div>
     <div class="content-section">
       <div class="section-label" data-en="From the Catechism" data-es="Del Catecismo">From the Catechism</div>
@@ -1761,7 +2277,7 @@ Amen.</div>
         <div class="essential-card"><span class="essential-icon">🌟</span><div class="essential-title" data-en="Solemnities" data-es="Solemnidades">Solemnities</div><div class="essential-text" data-en="The highest rank of feast day. Examples: Christmas, Easter, Pentecost, the Immaculate Conception (Dec 8), the Assumption (Aug 15), All Saints (Nov 1), and the feasts of the Lord throughout the year." data-es="El rango más alto de fiesta. Ejemplos: Navidad, Pascua, Pentecostés, la Inmaculada Concepción (8 dic), la Asunción (15 ago), Todos los Santos (1 nov) y las fiestas del Señor durante el año.">The highest rank of feast day. Examples: Christmas, Easter, Pentecost, the Immaculate Conception (Dec 8), the Assumption (Aug 15), All Saints (Nov 1), and the feasts of the Lord throughout the year.</div></div>
         <div class="essential-card"><span class="essential-icon">📅</span><div class="essential-title" data-en="Feast Days" data-es="Días de Fiesta">Feast Days</div><div class="essential-text" data-en="The second rank. Feasts of the Apostles, the major events of Mary's life, and other important celebrations." data-es="El segundo rango. Fiestas de los Apóstoles, los principales eventos de la vida de María y otras celebraciones importantes.">The second rank. Feasts of the Apostles, the major events of Mary's life, and other important celebrations. When a feast falls on a Sunday, the Sunday Mass normally takes priority.</div></div>
         <div class="essential-card"><span class="essential-icon">🕯️</span><div class="essential-title" data-en="The Triduum" data-es="El Triduo">The Triduum</div><div class="essential-text" data-en="Holy Thursday, Good Friday, and Holy Saturday are the Three Sacred Days (Triduum) — the very heart of the Christian year and the culmination of Lent. The Easter Vigil on Holy Saturday is the greatest night of the year." data-es="El Jueves Santo, el Viernes Santo y el Sábado Santo son los Tres Días Sagrados — el corazón mismo del año cristiano y la culminación de la Cuaresma.">Holy Thursday, Good Friday, and Holy Saturday are the Three Sacred Days (Triduum) — the very heart of the Christian year and the culmination of Lent. The Easter Vigil on Holy Saturday is the greatest night of the year.</div></div>
-        <div class="essential-card"><span class="essential-icon">✝️</span><div class="essential-title" data-en="Holy Days of Obligation" data-es="Días de Precepto">Holy Days of Obligation</div><div class="essential-text" data-en="In the US: Christmas (Dec 25), Mary the Mother of God (Jan 1), Ascension Thursday, Assumption (Aug 15), All Saints (Nov 1), Immaculate Conception (Dec 8). Catholics are obliged to attend Mass on these days." data-es="En EE.UU.: Navidad (25 dic), María Madre de Dios (1 ene), Ascensión, Asunción (15 ago), Todos los Santos (1 nov), Inmaculada Concepción (8 dic). Los católicos están obligados a asistir a Misa estos días.">In the US: Christmas (Dec 25), Mary the Mother of God (Jan 1), Ascension Thursday, Assumption (Aug 15), All Saints (Nov 1), Immaculate Conception (Dec 8). Catholics are obliged to attend Mass on these days.</div></div>
+        <div class="essential-card"><span class="essential-icon">✝️</span><div class="essential-title" data-en="Holy Days of Obligation" data-es="Días de Precepto">Holy Days of Obligation</div><div class="essential-text" data-en="In the US: Christmas (Dec 25), Mary the Mother of God (Jan 1), Ascension (Thursday or the following Sunday — varies by diocese), Assumption (Aug 15), All Saints (Nov 1), Immaculate Conception (Dec 8). Catholics are obliged to attend Mass on these days." data-es="En EE.UU.: Navidad (25 dic), María Madre de Dios (1 ene), Ascensión, Asunción (15 ago), Todos los Santos (1 nov), Inmaculada Concepción (8 dic). Los católicos están obligados a asistir a Misa estos días.">In the US: Christmas (Dec 25), Mary the Mother of God (Jan 1), Ascension (Thursday or the following Sunday — varies by diocese), Assumption (Aug 15), All Saints (Nov 1), Immaculate Conception (Dec 8). Catholics are obliged to attend Mass on these days.</div></div>
       </div>
     </div>
   </div>
@@ -1774,23 +2290,68 @@ Amen.</div>
       <p>A step-by-step companion for every part of the Mass — what happens, what it means, and what to do. You are always welcome at Mass, even before you can receive Communion.</p>
     </div>
     <div class="content-section">
+      <div class="section-label" data-en="What Is the Mass?" data-es="¿Qué Es la Misa?">What Is the Mass?</div>
+      <p class="body-text" data-en="The Mass is the central act of Catholic worship — and the most important thing Catholics do. It is not merely a prayer service or a memorial: it is the re-presentation of Christ's one sacrifice on the Cross, made present here and now on the altar. Jesus commanded his apostles at the Last Supper: &ldquo;Do this in memory of me&rdquo; (Luke 22:19). Every Mass fulfills that command." data-es="La Misa es el acto central del culto católico — y lo más importante que hacen los católicos. No es simplemente un servicio de oración ni un memorial: es la re-presentación del único sacrificio de Cristo en la Cruz, hecho presente aquí y ahora en el altar. Jesús ordenó a sus apóstoles en la Última Cena: &ldquo;Hagan esto en memoria mía&rdquo; (Lucas 22:19). Cada Misa cumple ese mandato.">The Mass is the central act of Catholic worship — and the most important thing Catholics do. It is not merely a prayer service or a memorial: it is the re-presentation of Christ's one sacrifice on the Cross, made present here and now on the altar. Jesus commanded his apostles at the Last Supper: &ldquo;Do this in memory of me&rdquo; (Luke 22:19). Every Mass fulfills that command.</p>
+    </div>
+
+    <div class="content-section">
+      <div class="section-label" data-en="Why Do We Do These Things?" data-es="¿Por Qué Hacemos Estas Cosas?">Why Do We Do These Things?</div>
+      <div class="essentials-grid">
+        <div class="essential-card">
+          <span class="essential-icon">🙏</span>
+          <div class="essential-title" data-en="The Mass Is a Sacrifice" data-es="La Misa Es un Sacrificio">The Mass Is a Sacrifice</div>
+          <div class="essential-text" data-en="At every Mass, Christ's death and resurrection are made truly present — not repeated, but re-presented. The same Jesus who died on Calvary offers himself to the Father through the ministry of the priest. The Mass is Calvary made present." data-es="En cada Misa, la muerte y resurrección de Cristo se hacen verdaderamente presentes — no se repiten, sino que se re-presentan. El mismo Jesús que murió en el Calvario se ofrece al Padre por medio del sacerdote. La Misa es el Calvario hecho presente.">At every Mass, Christ's death and resurrection are made truly present — not repeated, but re-presented. The same Jesus who died on Calvary offers himself to the Father through the ministry of the priest. The Mass is Calvary made present.</div>
+        </div>
+        <div class="essential-card">
+          <span class="essential-icon">📖</span>
+          <div class="essential-title" data-en="A Meal &amp; a Banquet" data-es="Una Comida y un Banquete">A Meal &amp; a Banquet</div>
+          <div class="essential-text" data-en="The Mass is also the sacred banquet Christ promised: &ldquo;My flesh is true food and my blood is true drink&rdquo; (John 6:55). We receive not bread and wine, but the Body, Blood, Soul, and Divinity of Jesus — the bread of eternal life." data-es="La Misa es también el banquete sagrado que Cristo prometió: &ldquo;Mi carne es verdadera comida y mi sangre es verdadera bebida&rdquo; (Juan 6:55). Recibimos no pan y vino, sino el Cuerpo, Sangre, Alma y Divinidad de Jesús — el pan de vida eterna.">The Mass is also the sacred banquet Christ promised: &ldquo;My flesh is true food and my blood is true drink&rdquo; (John 6:55). We receive not bread and wine, but the Body, Blood, Soul, and Divinity of Jesus — the bread of eternal life.</div>
+        </div>
+        <div class="essential-card">
+          <span class="essential-icon">✝️</span>
+          <div class="essential-title" data-en="Why Gestures &amp; Postures?" data-es="¿Por Qué Gestos y Posturas?">Why Gestures &amp; Postures?</div>
+          <div class="essential-text" data-en="We are not purely spiritual beings — we have bodies. Kneeling expresses adoration, standing expresses joy and resurrection, bowing expresses reverence. These gestures are not empty ritual; they are embodied theology that engages our whole person in prayer." data-es="No somos seres puramente espirituales — tenemos cuerpos. Arrodillarse expresa adoración, estar de pie expresa alegría y resurrección, inclinarse expresa reverencia. Estos gestos no son ritos vacíos; son teología encarnada que compromete a toda nuestra persona en la oración.">We are not purely spiritual beings — we have bodies. Kneeling expresses adoration, standing expresses joy and resurrection, bowing expresses reverence. These gestures are not empty ritual; they are embodied theology that engages our whole person in prayer.</div>
+        </div>
+        <div class="essential-card">
+          <span class="essential-icon">🕊️</span>
+          <div class="essential-title" data-en="Why Latin Words &amp; Ancient Prayers?" data-es="¿Por Qué Palabras en Latín y Oraciones Antiguas?">Why Latin Words &amp; Ancient Prayers?</div>
+          <div class="essential-text" data-en="The Mass connects us to 2,000 years of Christian worship. When we pray &ldquo;Lord have mercy&rdquo; (Kyrie eleison — ancient Greek), we pray with the very words of the early Church. The Mass preserves prayers in Greek, Latin, and Hebrew, uniting us to the whole of Christian history. The ancient prayers anchor us to the unbroken tradition of the faith." data-es="La Misa nos conecta con 2.000 años de culto cristiano. Cuando rezamos &ldquo;Señor, ten piedad&rdquo; (Kyrie eleison — griego antiguo), rezamos con las mismas palabras de la Iglesia primitiva. La Misa preserva oraciones en griego, latín y hebreo, uniéndonos a toda la historia cristiana.">The Mass connects us to 2,000 years of Christian worship. When we pray &ldquo;Lord have mercy&rdquo; (Kyrie eleison — ancient Greek), we pray with the very words of the early Church. The Mass preserves prayers in Greek, Latin, and Hebrew, uniting us to the whole of Christian history. The ancient prayers anchor us to the unbroken tradition of the faith.</div>
+        </div>
+        <div class="essential-card">
+          <span class="essential-icon">🌍</span>
+          <div class="essential-title" data-en="One Mass Across the World" data-es="Una Sola Misa en Todo el Mundo">One Mass Across the World</div>
+          <div class="essential-text" data-en="At every moment of every day, Mass is being celebrated somewhere on earth. The same sacrifice, the same prayers, the same Jesus — in Lagos, Lima, Manila, and Holy Family Parish. When you attend Mass, you join the entire Church on earth and in heaven." data-es="En todo momento del día, la Misa se celebra en algún lugar de la tierra. El mismo sacrificio, las mismas oraciones, el mismo Jesús — en Lagos, Lima, Manila y en la Parroquia Holy Family. Cuando asistes a Misa, te unes a toda la Iglesia en la tierra y en el cielo.">At every moment of every day, Mass is being celebrated somewhere on earth. The same sacrifice, the same prayers, the same Jesus — in Lagos, Lima, Manila, and Holy Family Parish. When you attend Mass, you join the entire Church on earth and in heaven.</div>
+        </div>
+        <div class="essential-card">
+          <span class="essential-icon">⏳</span>
+          <div class="essential-title" data-en="For OCIA Candidates" data-es="Para Candidatos del OCIA">For OCIA Candidates</div>
+          <div class="essential-text" data-en="You are not yet receiving Communion — and that is beautiful. You are in the period of formation, learning to hunger for what you will soon receive. Your presence at Mass, your listening, your prayer — all of it is participation. You belong here." data-es="Aún no estás recibiendo la Comunión — y eso es hermoso. Estás en el período de formación, aprendiendo a tener hambre de lo que pronto recibirás. Tu presencia en la Misa, tu escucha, tu oración — todo ello es participación. Perteneces aquí.">You are not yet receiving Communion — and that is beautiful. You are in the period of formation, learning to hunger for what you will soon receive. Your presence at Mass, your listening, your prayer — all of it is participation. You belong here.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="content-section">
       <div class="section-label" data-en="Before You Arrive" data-es="Antes de Llegar">Before You Arrive</div>
       <p class="body-text" data-en="Arrive a few minutes early to settle and pray. You will see people genuflecting (briefly kneeling on one knee) toward the tabernacle as they enter the pew — this is a sign of reverence for the Real Presence of Christ. Follow the lead of those around you for postures: the congregation stands, sits, or kneels together. As an OCIA candidate, you may not yet receive Holy Communion — you will be dismissed after the Liturgy of the Word for further catechesis, or you may remain and participate in everything except Communion. Either is a grace-filled participation." data-es="Llega unos minutos antes para calmarte y orar. Verás a personas genuflexionando (arrodillándose brevemente en una rodilla) hacia el sagrario al entrar al banco — es señal de reverencia ante la Presencia Real de Cristo. Sigue el ejemplo de quienes te rodean en las posturas: la congregación se pone de pie, se sienta o se arrodilla juntos. Como candidato del OCIA, todavía no puedes recibir la Sagrada Comunión — serás despedido después de la Liturgia de la Palabra para continuar la catequesis, o puedes quedarte y participar en todo excepto la Comunión. Ambas son participaciones llenas de gracia.">Arrive a few minutes early to settle and pray. You will see people genuflecting (briefly kneeling on one knee) toward the tabernacle as they enter the pew — this is a sign of reverence for the Real Presence of Christ. Follow the lead of those around you for postures: the congregation stands, sits, or kneels together. As an OCIA candidate, you may not yet receive Holy Communion — you will be dismissed after the Liturgy of the Word for further catechesis, or you may remain and participate in everything except Communion. Either is a grace-filled participation.</p>
     </div>
     <div class="content-section">
       <div class="section-label" data-en="Part I — The Introductory Rites" data-es="Parte I — Los Ritos Iniciales">Part I — The Introductory Rites</div>
+      <p class="body-text" style="margin-bottom:0.75rem;" data-en="The Mass begins with gathering rites that prepare us for worship. These moments acknowledge who we are (sinners in need of God's mercy), whose presence we enter (the Holy Trinity), and what we are about to do (offer sacrifice and receive the Word). We gather not as individuals but as the Body of Christ." data-es="La Misa comienza con ritos de reunión que nos preparan para el culto. Estos momentos reconocen quiénes somos (pecadores que necesitan la misericordia de Dios), en cuya presencia entramos (la Santísima Trinidad) y qué estamos a punto de hacer (ofrecer sacrificio y recibir la Palabra). Nos reunimos no como individuos sino como el Cuerpo de Cristo.">The Mass begins with gathering rites that prepare us for worship. These moments acknowledge who we are (sinners in need of God's mercy), whose presence we enter (the Holy Trinity), and what we are about to do (offer sacrifice and receive the Word). We gather not as individuals but as the Body of Christ.</p>
       <div class="mass-parts" id="mass-intro"></div>
     </div>
     <div class="content-section">
       <div class="section-label" data-en="Part II — The Liturgy of the Word" data-es="Parte II — La Liturgia de la Palabra">Part II — The Liturgy of the Word</div>
+      <p class="body-text" style="margin-bottom:0.75rem;" data-en="God speaks first — always. Before we offer anything, we listen. The Liturgy of the Word follows the ancient pattern of Jewish synagogue worship that Jesus himself participated in. Scripture is not just read; it is proclaimed as a living Word. &ldquo;The Word of God is living and active&rdquo; (Hebrews 4:12) — something happens when it is proclaimed at Mass." data-es="Dios habla primero — siempre. Antes de ofrecer algo, escuchamos. La Liturgia de la Palabra sigue el antiguo patrón del culto de la sinagoga judía en que participó el mismo Jesús. La Escritura no solo se lee; se proclama como Palabra viva. &ldquo;La Palabra de Dios es viva y eficaz&rdquo; (Hebreos 4:12) — algo sucede cuando se proclama en la Misa.">God speaks first — always. Before we offer anything, we listen. The Liturgy of the Word follows the ancient pattern of Jewish synagogue worship that Jesus himself participated in. Scripture is not just read; it is proclaimed as a living Word. &ldquo;The Word of God is living and active&rdquo; (Hebrews 4:12) — something happens when it is proclaimed at Mass.</p>
       <div class="mass-parts" id="mass-word"></div>
     </div>
     <div class="content-section">
       <div class="section-label" data-en="Part III — The Liturgy of the Eucharist" data-es="Parte III — La Liturgia de la Eucaristía">Part III — The Liturgy of the Eucharist</div>
+      <p class="body-text" style="margin-bottom:0.75rem;" data-en="This is the heart of the Mass — the moment toward which all else points. The priest, acting in the person of Christ (in persona Christi), takes bread and wine and speaks the words of consecration: &ldquo;This is my body… this is my blood.&rdquo; At that moment, by the power of the Holy Spirit, the bread and wine become the Body and Blood of Jesus Christ. This is transubstantiation — not a symbol, but a real change." data-es="Este es el corazón de la Misa — el momento al que todo lo demás apunta. El sacerdote, actuando en la persona de Cristo (in persona Christi), toma pan y vino y pronuncia las palabras de consagración: &ldquo;Este es mi cuerpo… esta es mi sangre.&rdquo; En ese momento, por el poder del Espíritu Santo, el pan y el vino se convierten en el Cuerpo y la Sangre de Jesucristo. Esto es la transubstanciación — no un símbolo, sino un cambio real.">This is the heart of the Mass — the moment toward which all else points. The priest, acting in the person of Christ (in persona Christi), takes bread and wine and speaks the words of consecration: &ldquo;This is my body… this is my blood.&rdquo; At that moment, by the power of the Holy Spirit, the bread and wine become the Body and Blood of Jesus Christ. This is transubstantiation — not a symbol, but a real change.</p>
       <div class="mass-parts" id="mass-eucharist"></div>
     </div>
     <div class="content-section">
       <div class="section-label" data-en="Part IV — The Concluding Rites" data-es="Parte IV — Los Ritos de Conclusión">Part IV — The Concluding Rites</div>
+      <p class="body-text" style="margin-bottom:0.75rem;" data-en="The Mass does not simply end — it sends. The Latin word &ldquo;Missa&rdquo; (from which &ldquo;Mass&rdquo; comes) means a sending forth. We are dismissed to bring Christ into the world: to our homes, our workplaces, our communities. The Mass is not a refuge from the world but fuel for transforming it." data-es="La Misa no simplemente termina — envía. La palabra latina &ldquo;Missa&rdquo; (de donde proviene &ldquo;Misa&rdquo;) significa un envío. Somos despedidos para llevar a Cristo al mundo: a nuestros hogares, nuestros lugares de trabajo, nuestras comunidades. La Misa no es un refugio del mundo sino combustible para transformarlo.">The Mass does not simply end — it sends. The Latin word &ldquo;Missa&rdquo; (from which &ldquo;Mass&rdquo; comes) means a sending forth. We are dismissed to bring Christ into the world: to our homes, our workplaces, our communities. The Mass is not a refuge from the world but fuel for transforming it.</p>
       <div class="mass-parts" id="mass-conclude"></div>
     </div>
     <div class="content-section">
@@ -1804,6 +2365,61 @@ Amen.</div>
   </div>
 
   <!-- AI ASSISTANT -->
+  <div class="tab-panel" id="tab-calendar">
+
+    <div class="calendar-hero">
+      <h2 data-en="📅 OCIA Session Calendar" data-es="📅 Calendario del OCIA">📅 OCIA Session Calendar</h2>
+      <p data-en="Upcoming sessions, topics, and instructors for Holy Family OCIA" data-es="Sesiones, temas e instructores del OCIA de Holy Family">Upcoming sessions, topics, and instructors for Holy Family OCIA</p>
+    </div>
+
+    <div class="calendar-controls">
+      <button class="cal-filter-btn active" onclick="calFilter('upcoming')" data-en="Upcoming" data-es="Próximas">Upcoming</button>
+      <button class="cal-filter-btn" onclick="calFilter('all')" data-en="All Sessions" data-es="Todas">All Sessions</button>
+      <button class="cal-filter-btn" onclick="calFilter('past')" data-en="Past" data-es="Pasadas">Past</button>
+    </div>
+
+    <div class="calendar-list" id="calendar-list">
+      <div class="cal-empty" id="cal-loading">Loading sessions…</div>
+    </div>
+
+    <div class="cal-last-updated" id="cal-last-updated"></div>
+
+    <!-- DRE Admin Toggle -->
+    <button class="dre-toggle-btn" onclick="dreToggle()" id="dre-toggle-btn" data-en="🔒 DRE Update" data-es="🔒 Actualizar">🔒 DRE Update</button>
+
+    <!-- DRE Admin Panel -->
+    <div class="dre-panel" id="dre-panel" style="display:none;">
+
+      <!-- Login -->
+      <div class="dre-login" id="dre-login-section">
+        <div class="dre-login-title" data-en="DRE Access — Enter Password" data-es="Acceso DRE — Ingrese Contraseña">DRE Access — Enter Password</div>
+        <input type="password" class="dre-input" id="dre-password-input" placeholder="Password…" onkeydown="if(event.key==='Enter') dreLogin()">
+        <button class="dre-btn dre-btn-primary" onclick="dreLogin()" style="width:100%;" data-en="Unlock" data-es="Desbloquear">Unlock</button>
+        <p id="dre-login-error" style="color:#c0392b;font-family:EB Garamond,serif;font-style:italic;margin-top:0.5rem;display:none;" data-en="Incorrect password. Please try again." data-es="Contraseña incorrecta. Intenta de nuevo.">Incorrect password. Please try again.</p>
+      </div>
+
+      <!-- Editor (shown after login) -->
+      <div class="dre-editor" id="dre-editor">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;">
+          <div style="font-family:Cinzel,serif;font-size:0.72rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--habit);" data-en="✅ DRE Access Granted — Edit Sessions" data-es="✅ Acceso DRE — Editar Sesiones">✅ DRE Access Granted — Edit Sessions</div>
+          <button class="dre-btn dre-btn-secondary" onclick="dreLogout()" data-en="Lock" data-es="Cerrar">Lock</button>
+        </div>
+
+        <div id="dre-sessions-container"></div>
+
+        <button class="dre-btn dre-btn-add" onclick="dreAddSession()" data-en="+ Add Session" data-es="+ Agregar Sesión">+ Add Session</button>
+
+        <div class="dre-save-row">
+          <span class="dre-save-status" id="dre-save-status"></span>
+          <button class="dre-btn dre-btn-secondary" onclick="dreCancel()" data-en="Cancel" data-es="Cancelar">Cancel</button>
+          <button class="dre-btn dre-btn-primary" onclick="dreSave()" data-en="💾 Save &amp; Publish" data-es="💾 Guardar y Publicar">💾 Save &amp; Publish</button>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
   <div class="tab-panel ai-panel" id="tab-ai">
     <div class="ai-hero">
       <div class="ai-hero-title" data-en="✦ Catholic Faith Assistant" data-es="✦ Asistente de Fe Católica">✦ Catholic Faith Assistant</div>
@@ -2034,29 +2650,80 @@ function buildDivineMercySteps() {
 }
 
 function buildStMichaelSteps() {
-  const choirs = ['the Seraphim','the Cherubim','the Thrones','the Dominions','the Virtues','the Powers','the Principalities','the Archangels','the Holy Angels'];
-  const steps = [];
-  steps.push({ label: 'Opening', title: 'Opening', body: "O God, come to my assistance.\nO Lord, make haste to help me.\nGlory be to the Father, and to the Son,\nand to the Holy Spirit.\nAs it was in the beginning, is now,\nand ever shall be, world without end.\nAmen." });
-  choirs.forEach((choir, i) => {
-    steps.push({
-      label: `Salutation ${i+1}: ${choir}`,
-      title: `Salutation ${i+1} — In honor of ${choir}`,
-      body: `By the intercession of St. Michael and of the celestial choir of ${choir},\nmay the Lord grant us to be buried beneath His wings\nand guarded from the wicked ones.`,
-      note: 'Followed by: 1 Our Father + 3 Hail Marys'
-    });
-    steps.push({ label: `Our Father — Salutation ${i+1}`, ...PRAYERS.ourfather });
-    for (let hm = 1; hm <= 3; hm++) {
-      steps.push({ label: `Hail Mary ${hm}/3 — Salutation ${i+1}`, ...PRAYERS.hailmary });
+  const SALUTATIONS = [
+    {
+      choir: 'the Seraphim',
+      prayer: 'By the intercession of St. Michael and the celestial Choir of Seraphim,\nmay the Lord make us worthy to burn with the fire of perfect charity.\nAmen.'
+    },
+    {
+      choir: 'the Cherubim',
+      prayer: 'By the intercession of St. Michael and the celestial Choir of Cherubim,\nmay the Lord vouchsafe to grant us grace to leave the ways of sin\nand run in the path of Christian perfection.\nAmen.'
+    },
+    {
+      choir: 'the Thrones',
+      prayer: 'By the intercession of St. Michael and the celestial Choir of Thrones,\nmay the Lord infuse into our hearts a true and sincere spirit of humility.\nAmen.'
+    },
+    {
+      choir: 'the Dominions',
+      prayer: 'By the intercession of St. Michael and the celestial Choir of Dominions,\nmay the Lord give us grace to govern our senses and overcome any unruly passions.\nAmen.'
+    },
+    {
+      choir: 'the Virtues',
+      prayer: 'By the intercession of St. Michael and the celestial Choir of Virtues,\nmay the Lord preserve us from evil and falling into temptation.\nAmen.'
+    },
+    {
+      choir: 'the Powers',
+      prayer: 'By the intercession of St. Michael and the celestial Choir of Powers,\nmay the Lord protect our souls against the snares and temptations of the devil.\nAmen.'
+    },
+    {
+      choir: 'the Principalities',
+      prayer: 'By the intercession of St. Michael and the celestial Choir of Principalities,\nmay God fill our souls with a true spirit of obedience.\nAmen.'
+    },
+    {
+      choir: 'the Archangels',
+      prayer: 'By the intercession of St. Michael and the celestial Choir of Archangels,\nmay the Lord give us perseverance in faith and in all good works\nin order that we may attain the glory of paradise.\nAmen.'
+    },
+    {
+      choir: 'the Angels',
+      prayer: 'By the intercession of St. Michael and the celestial Choir of Angels,\nmay the Lord grant us to be protected by them in this mortal life\nand conducted in the life to come to heaven.\nAmen.'
     }
+  ];
+
+  const steps = [];
+  steps.push({
+    label: 'Opening',
+    title: 'Opening Prayer',
+    body: 'O God, come to my assistance.\nO Lord, make haste to help me.\nGlory be to the Father, and to the Son,\nand to the Holy Spirit.\nAs it was in the beginning, is now,\nand ever shall be, world without end.\nAmen.'
   });
-  ['St. Michael','St. Gabriel','St. Raphael','Your Guardian Angel'].forEach(angel => {
-    steps.push({ label: `Our Father — For ${angel}`, title: `Our Father in honor of ${angel}`, body: PRAYERS.ourfather.body });
+
+  SALUTATIONS.forEach((sal, i) => {
+    const choirName = sal.choir.charAt(0).toUpperCase() + sal.choir.slice(1);
+    steps.push({
+      label: `Salutation ${i+1} — ${choirName}`,
+      title: `Salutation ${i+1} of 9: In honor of ${choirName}`,
+      body: sal.prayer,
+      note: 'Followed by 1 Our Father and 3 Hail Marys'
+    });
+    steps.push({ label: `Our Father (Salutation ${i+1})`, ...PRAYERS.ourfather });
+    steps.push({ label: `Hail Mary 1/3 (Salutation ${i+1})`, ...PRAYERS.hailmary });
+    steps.push({ label: `Hail Mary 2/3 (Salutation ${i+1})`, ...PRAYERS.hailmary });
+    steps.push({ label: `Hail Mary 3/3 (Salutation ${i+1})`, ...PRAYERS.hailmary });
   });
+
+  steps.push({ label: 'Our Father — St. Michael', title: 'Our Father for St. Michael, Prince of the Heavenly Host', body: PRAYERS.ourfather.body, note: 'One Our Father for each of the four holy Archangels' });
+  steps.push({ label: 'Our Father — St. Gabriel', title: 'Our Father for St. Gabriel, Messenger of God', body: PRAYERS.ourfather.body });
+  steps.push({ label: 'Our Father — St. Raphael', title: 'Our Father for St. Raphael, Healer and Guide', body: PRAYERS.ourfather.body });
+  steps.push({ label: 'Our Father — Guardian Angel', title: 'Our Father for Your Holy Guardian Angel', body: PRAYERS.ourfather.body });
+
   steps.push({ label: 'Closing Prayer', ...PRAYERS.michaelclose });
-  steps.push({ label: '✝ Chaplet Complete', title: 'Chaplet of St. Michael Complete', body: 'O glorious St. Michael,\nprince of the heavenly hosts,\ndefend us in the battle\nand guard us against wickedness and the snares of the devil.\nAmen.' });
+  steps.push({
+    label: '⚔️ Chaplet Complete',
+    title: 'Chaplet of St. Michael Complete',
+    body: 'St. Michael the Archangel,\ndefend us in battle.\nBe our protection against the wickedness and snares of the devil.\nMay God rebuke him, we humbly pray;\nand do Thou, O Prince of the Heavenly Host,\nby the power of God,\ncast into hell Satan and all the evil spirits\nwho prowl about the world seeking the ruin of souls.\nAmen.'
+  });
+
   return steps;
 }
-
 function buildFranciscanCrownSteps() {
   const steps = [];
   steps.push({ label: 'Sign of the Cross', ...PRAYERS.signofcross });
@@ -2156,6 +2823,7 @@ function startPrayer(prayerId) {
   const label = document.getElementById('guide-label');
   const mystSelector = document.getElementById('guide-mystery-selector');
   const guide = document.getElementById('prayer-guide');
+  const rosaryTab = document.getElementById('tab-rosary');
 
   const titles = {
     rosary: '📿 The Holy Rosary',
@@ -2166,13 +2834,15 @@ function startPrayer(prayerId) {
     holyspiritchaplet: '🔥 Holy Spirit Chaplet',
     sacredheart: '❤️ Sacred Heart Chaplet'
   };
-  label.textContent = titles[prayerId] || 'Prayer Guide';
-  mystSelector.style.display = prayerId === 'rosary' ? 'block' : 'none';
+  if (label) label.textContent = titles[prayerId] || 'Prayer Guide';
+  if (mystSelector) mystSelector.style.display = prayerId === 'rosary' ? 'block' : 'none';
 
   prayerSteps = buildSteps(prayerId);
   guide.style.display = 'block';
-  guide.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  // Hide all sibling content in the tab so guide takes full page
+  if (rosaryTab) rosaryTab.classList.add('guide-active');
   renderGuide();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function buildSteps(prayerId) {
@@ -2241,6 +2911,19 @@ function renderGuide() {
     ? `Paso ${currentStep+1} de ${prayerSteps.length}`
     : `Step ${currentStep+1} of ${prayerSteps.length}`;
 
+  // Update external sticky nav
+  const prevBtn    = document.getElementById('guide-prev');
+  const nextBtn    = document.getElementById('guide-next');
+  const counterEl  = document.getElementById('step-counter');
+  const noteWrap   = document.getElementById('panel-note-wrap');
+  const noteEl     = document.getElementById('panel-note');
+  const titleEl    = document.getElementById('panel-title');
+  const bodyEl     = document.getElementById('panel-body');
+
+  if (prevBtn)   { prevBtn.disabled = currentStep === 0; prevBtn.textContent = prevLabel; }
+  if (nextBtn)   { nextBtn.disabled = isLast; nextBtn.textContent = nextLabel; }
+  if (counterEl) counterEl.textContent = stepOf;
+
   if (isComplete) {
     panel.innerHTML = `
       <div class="guide-complete">
@@ -2249,20 +2932,20 @@ function renderGuide() {
         <p class="guide-complete-text">${step.body.replace(/\n/g,'<br>')}</p>
         <button class="guide-restart" onclick="restartPrayer()">${prayAgain}</button>
       </div>`;
+    if (prevBtn) prevBtn.disabled = true;
+    if (nextBtn) nextBtn.disabled = true;
   } else {
-    const noteHtml = step.note ? `<div class="guide-panel-note">📌 ${step.note}</div>` : '';
-    const bodyText = step.body.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');
-    const prevDisabled = currentStep === 0 ? 'disabled' : '';
-    const nextDisabled = isLast ? 'disabled' : '';
-    panel.innerHTML = `
-      <div class="guide-panel-title">${step.title || step.label}</div>
-      <div class="guide-panel-body">${bodyText}</div>
-      ${noteHtml}
-      <div class="guide-nav">
-        <button class="guide-nav-btn" onclick="navigateStep(-1)" ${prevDisabled}>${prevLabel}</button>
-        <span class="guide-step-counter">${stepOf}</span>
-        <button class="guide-nav-btn guide-nav-btn--next" onclick="navigateStep(1)" ${nextDisabled}>${nextLabel}</button>
-      </div>`;
+    const bodyText = (step.body || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');
+    if (titleEl) titleEl.textContent = step.title || step.label || '';
+    if (bodyEl)  bodyEl.innerHTML = bodyText;
+    if (noteWrap && noteEl) {
+      if (step.note) {
+        noteEl.textContent = '📌 ' + step.note;
+        noteWrap.style.display = 'block';
+      } else {
+        noteWrap.style.display = 'none';
+      }
+    }
   }
 }
 
@@ -2301,9 +2984,12 @@ function restartPrayer() {
 
 function closePrayer() {
   document.getElementById('prayer-guide').style.display = 'none';
+  const rosaryTab = document.getElementById('tab-rosary');
+  if (rosaryTab) rosaryTab.classList.remove('guide-active');
   currentPrayer = null;
   currentStep = 0;
   prayerSteps = [];
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function toggleAccordion(trigger) {
@@ -2670,6 +3356,334 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
+// ══ OCIA CALENDAR ══════════════════════════════════════════════
+
+let calSessions  = [];
+let calFilterMode = 'upcoming';
+let drePassword   = '';
+let dreAuthenticated = false;
+
+// Months for display
+const CAL_MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const CAL_MONTHS_ES = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+
+// Load calendar from server
+async function loadCalendar() {
+  try {
+    const res = await fetch('/api/calendar');
+    const data = await res.json();
+    calSessions = data.sessions || [];
+    renderCalendar();
+    if (data.lastUpdated) {
+      const d = new Date(data.lastUpdated);
+      const el = document.getElementById('cal-last-updated');
+      if (el) el.textContent = (currentLang === 'es' ? 'Última actualización: ' : 'Last updated: ')
+        + d.toLocaleDateString(currentLang === 'es' ? 'es-MX' : 'en-US', { month:'long', day:'numeric', year:'numeric' });
+    }
+  } catch(e) {
+    const el = document.getElementById('calendar-list');
+    if (el) el.innerHTML = '<div class="cal-empty">Unable to load calendar. Please try again later.</div>';
+  }
+}
+
+function calFilter(mode) {
+  calFilterMode = mode;
+  document.querySelectorAll('.cal-filter-btn').forEach((btn, i) => {
+    const modes = ['upcoming','all','past'];
+    btn.classList.toggle('active', modes[i] === mode);
+  });
+  renderCalendar();
+}
+
+function getSessionStatus(dateStr) {
+  if (!dateStr) return 'upcoming';
+  const today = new Date(); today.setHours(0,0,0,0);
+  const d     = new Date(dateStr + 'T00:00:00');
+  const diff  = Math.round((d - today) / 86400000);
+  if (diff === 0) return 'today';
+  if (diff < 0)  return 'past';
+  return 'upcoming';
+}
+
+function renderCalendar() {
+  const container = document.getElementById('calendar-list');
+  if (!container) return;
+
+  const today = new Date(); today.setHours(0,0,0,0);
+
+  let filtered = calSessions.filter(s => {
+    const status = getSessionStatus(s.date);
+    if (calFilterMode === 'upcoming') return status === 'upcoming' || status === 'today';
+    if (calFilterMode === 'past')     return status === 'past';
+    return true;
+  });
+
+  // Sort by date
+  filtered.sort((a, b) => {
+    if (!a.date && !b.date) return 0;
+    if (!a.date) return 1;
+    if (!b.date) return -1;
+    return new Date(a.date) - new Date(b.date);
+  });
+
+  if (!filtered.length) {
+    container.innerHTML = '<div class="cal-empty">' +
+      (currentLang === 'es' ? 'No hay sesiones para mostrar.' : 'No sessions to display.') + '</div>';
+    return;
+  }
+
+  // Group by month
+  const groups = {};
+  filtered.forEach(s => {
+    const key = s.date ? s.date.slice(0,7) : 'TBD';
+    if (!groups[key]) groups[key] = [];
+    groups[key].push(s);
+  });
+
+  let html = '';
+  Object.keys(groups).sort().forEach(monthKey => {
+    // Month header
+    let headerLabel = monthKey;
+    if (monthKey !== 'TBD') {
+      const [yr, mo] = monthKey.split('-');
+      const months = currentLang === 'es' ? CAL_MONTHS_ES : CAL_MONTHS;
+      const monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+      const monthNamesEs = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+      const names = currentLang === 'es' ? monthNamesEs : monthNames;
+      headerLabel = names[parseInt(mo)-1] + ' ' + yr;
+    }
+    html += `<div class="cal-month-header">${headerLabel}</div>`;
+
+    groups[monthKey].forEach(s => {
+      const status = getSessionStatus(s.date);
+      let day = '', mon = '';
+      if (s.date) {
+        const d = new Date(s.date + 'T00:00:00');
+        day = d.getDate();
+        const months = currentLang === 'es' ? CAL_MONTHS_ES : CAL_MONTHS;
+        mon = months[d.getMonth()];
+      }
+
+      const todayBadge = status === 'today'
+        ? `<span style="font-family:Cinzel,serif;font-size:0.55rem;letter-spacing:0.1em;text-transform:uppercase;background:var(--cord);color:white;border-radius:10px;padding:0.1rem 0.4rem;margin-left:0.4rem;">${currentLang==='es'?'HOY':'TODAY'}</span>`
+        : '';
+
+      html += `
+        <div class="cal-session ${status}">
+          <div class="cal-session-header">
+            <div class="cal-date-badge">
+              <div class="cal-date-day">${day || '—'}</div>
+              <div class="cal-date-month">${mon || (currentLang==='es'?'POR DEFINIR':'TBD')}</div>
+            </div>
+            <div class="cal-session-info">
+              <div class="cal-session-title">${escHtml(s.title || '')}${todayBadge}</div>
+              ${s.instructor ? `<div class="cal-session-instructor">👤 ${escHtml(s.instructor)}</div>` : ''}
+              ${s.location   ? `<div class="cal-session-location">📍 ${escHtml(s.location)}</div>` : ''}
+            </div>
+          </div>
+          ${s.topic ? `<div class="cal-session-topic">${escHtml(s.topic)}</div>` : ''}
+          ${s.notes ? `<div class="cal-session-notes">${escHtml(s.notes)}</div>` : ''}
+        </div>`;
+    });
+  });
+
+  container.innerHTML = html;
+}
+
+function escHtml(str) {
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ── DRE Admin ─────────────────────────────────────────────────
+
+function dreToggle() {
+  const panel = document.getElementById('dre-panel');
+  const btn   = document.getElementById('dre-toggle-btn');
+  if (!panel) return;
+  const isOpen = panel.style.display !== 'none';
+  panel.style.display = isOpen ? 'none' : 'block';
+  if (!isOpen && !dreAuthenticated) {
+    // Reset login
+    const pwInput = document.getElementById('dre-password-input');
+    if (pwInput) pwInput.value = '';
+    const err = document.getElementById('dre-login-error');
+    if (err) err.style.display = 'none';
+  }
+}
+
+async function dreLogin() {
+  const pwInput = document.getElementById('dre-password-input');
+  const errEl   = document.getElementById('dre-login-error');
+  const pw      = pwInput ? pwInput.value.trim() : '';
+  if (!pw) return;
+
+  try {
+    const res  = await fetch('/api/calendar/auth', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ password: pw })
+    });
+    const data = await res.json();
+    if (data.ok) {
+      drePassword = pw;
+      dreAuthenticated = true;
+      document.getElementById('dre-login-section').style.display = 'none';
+      document.getElementById('dre-editor').classList.add('open');
+      dreLoadEditor();
+      if (errEl) errEl.style.display = 'none';
+    } else {
+      if (errEl) errEl.style.display = 'block';
+    }
+  } catch(e) {
+    if (errEl) { errEl.style.display = 'block'; errEl.textContent = 'Connection error. Please try again.'; }
+  }
+}
+
+function dreLogout() {
+  drePassword = '';
+  dreAuthenticated = false;
+  document.getElementById('dre-login-section').style.display = 'block';
+  document.getElementById('dre-editor').classList.remove('open');
+  document.getElementById('dre-panel').style.display = 'none';
+}
+
+function dreCancel() {
+  document.getElementById('dre-panel').style.display = 'none';
+}
+
+function dreLoadEditor() {
+  const container = document.getElementById('dre-sessions-container');
+  if (!container) return;
+  container.innerHTML = '';
+  calSessions.forEach((s, i) => dreRenderSession(s, i));
+}
+
+function dreRenderSession(s, idx) {
+  const container = document.getElementById('dre-sessions-container');
+  const div = document.createElement('div');
+  div.className = 'dre-session-editor';
+  div.id = 'dre-session-' + (s.id || idx);
+  div.innerHTML = `
+    <div class="dre-session-num">Session ${idx + 1}</div>
+    <button class="dre-btn dre-btn-danger dre-remove-btn" onclick="dreRemoveSession('${s.id || idx}')">✕ Remove</button>
+    <div class="dre-field-row">
+      <div>
+        <label class="dre-label">Date</label>
+        <input class="dre-field" type="date" name="date" value="${s.date || ''}">
+      </div>
+      <div>
+        <label class="dre-label">Location</label>
+        <input class="dre-field" type="text" name="location" value="${escHtml(s.location || '')}" placeholder="e.g. Parish Hall">
+      </div>
+    </div>
+    <div class="dre-field-full">
+      <label class="dre-label">Session Title</label>
+      <input class="dre-field" type="text" name="title" value="${escHtml(s.title || '')}" placeholder="e.g. The Holy Trinity">
+    </div>
+    <div class="dre-field-full">
+      <label class="dre-label">Instructor / Presenter</label>
+      <input class="dre-field" type="text" name="instructor" value="${escHtml(s.instructor || '')}" placeholder="e.g. Fr. Michael">
+    </div>
+    <div class="dre-field-full">
+      <label class="dre-label">Topic / Description</label>
+      <textarea class="dre-field" name="topic" placeholder="What will be covered…">${escHtml(s.topic || '')}</textarea>
+    </div>
+    <div class="dre-field-full">
+      <label class="dre-label">Notes for Candidates</label>
+      <textarea class="dre-field" name="notes" placeholder="Bring your Bible, readings to prepare, etc…">${escHtml(s.notes || '')}</textarea>
+    </div>
+  `;
+  div.dataset.sessionId = s.id || String(idx);
+  container.appendChild(div);
+}
+
+function dreAddSession() {
+  const newSession = {
+    id: 'new_' + Date.now(),
+    date: '', title: '', instructor: '',
+    topic: '', notes: '', location: 'Parish Hall'
+  };
+  calSessions.push(newSession);
+  const idx = calSessions.length - 1;
+  dreRenderSession(newSession, idx);
+  // Scroll to new session
+  const el = document.getElementById('dre-session-' + newSession.id);
+  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+function dreRemoveSession(sessionId) {
+  if (!confirm('Remove this session?')) return;
+  calSessions = calSessions.filter(s => (s.id || '') !== sessionId);
+  const el = document.getElementById('dre-session-' + sessionId);
+  if (el) el.remove();
+  // Renumber
+  document.querySelectorAll('.dre-session-editor').forEach((el, i) => {
+    const numEl = el.querySelector('.dre-session-num');
+    if (numEl) numEl.textContent = 'Session ' + (i + 1);
+  });
+}
+
+async function dreSave() {
+  const statusEl = document.getElementById('dre-save-status');
+  if (statusEl) statusEl.textContent = currentLang === 'es' ? 'Guardando…' : 'Saving…';
+
+  // Collect sessions from editor
+  const editors = document.querySelectorAll('.dre-session-editor');
+  const sessions = Array.from(editors).map((el, i) => {
+    const id = el.dataset.sessionId || String(i);
+    const get = name => (el.querySelector(`[name="${name}"]`) || {}).value || '';
+    return {
+      id,
+      date:       get('date'),
+      title:      get('title'),
+      instructor: get('instructor'),
+      topic:      get('topic'),
+      notes:      get('notes'),
+      location:   get('location')
+    };
+  });
+
+  try {
+    const res = await fetch('/api/calendar', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ password: drePassword, sessions })
+    });
+    const data = await res.json();
+    if (res.ok) {
+      calSessions = sessions;
+      renderCalendar();
+      if (statusEl) {
+        statusEl.textContent = currentLang === 'es'
+          ? '✅ Guardado exitosamente'
+          : '✅ Saved and published successfully';
+        setTimeout(() => { if (statusEl) statusEl.textContent = ''; }, 3000);
+      }
+      // Update last updated
+      const luEl = document.getElementById('cal-last-updated');
+      if (luEl) luEl.textContent = (currentLang === 'es' ? 'Última actualización: ' : 'Last updated: ')
+        + new Date().toLocaleDateString(currentLang === 'es' ? 'es-MX' : 'en-US', { month:'long', day:'numeric', year:'numeric' });
+    } else {
+      if (statusEl) statusEl.textContent = '❌ Error: ' + (data.error || 'Save failed');
+    }
+  } catch(e) {
+    if (statusEl) statusEl.textContent = '❌ Connection error. Please try again.';
+  }
+}
+
+// Load calendar when Calendar tab is opened
+document.addEventListener('DOMContentLoaded', function() {
+  // Override openTab to load calendar on first open
+  const _origOpenTab = openTab;
+  window.openTab = function(tabId) {
+    _origOpenTab(tabId);
+    if (tabId === 'calendar' && calSessions.length === 0) {
+      loadCalendar();
+    }
+  };
+});
+
+
 // ══ SAINT FINDER ═════════════════════════════════════════════
 
 async function findMySaint() {
@@ -2798,14 +3812,6 @@ function resetSaintFinder() {
 }
 
 </script>
-<script>
-if ('serviceWorker' in navigator && location.protocol !== 'file:') {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js')
-      .then(reg => console.log('SW registered:', reg.scope))
-      .catch(err => console.log('SW registration failed:', err));
-  });
-}
-</script>
+<!-- Service worker disabled -->
 </body>
 </html>
